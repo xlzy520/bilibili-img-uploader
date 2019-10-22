@@ -1,5 +1,5 @@
 {
-  "name": "bilibili_img_uploader",
+  "name": "bilibili-img-uploader",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.1.2",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "wired-elements": "^2.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
@@ -18,18 +19,17 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
     "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {
     "root": true,
     "env": {
-      "node": true
+      "node": false,
+      "browser": true
     },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
+    "extends": [],
     "parserOptions": {
       "parser": "babel-eslint"
     }
