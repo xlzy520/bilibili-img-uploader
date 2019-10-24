@@ -1,7 +1,8 @@
 <template>
   <div class="main">
     <div class="header">
-      <wired-link elevation="1" href="https://github.com/xlzy520/bilibili-img-uploader/blob/master/README.md" target="_blank">如何获取SESSDATA？</wired-link>
+      <wired-link elevation="1" href="https://github.com/xlzy520/bilibili-img-uploader/blob/master/README.md"
+                  target="_blank">如何获取SESSDATA？如何使用图片样式？</wired-link>
     </div>
     <div class="token">
       <label>SESSDATA：</label>
@@ -27,7 +28,7 @@
         <div class="link" v-for="link in links" :key="link.name">
           <label>{{link.name}}：</label>
           <div class="content">
-            <wired-input type="text" :value="link.value" class="link-result"
+            <wired-input type="text" :id="link.id" :value="link.value" class="link-result"
                          @input="link.value = $event.target.value"></wired-input>
             <wired-button elevation="3" @click="copyToClipboard(link.value)">复制</wired-button>
           </div>
@@ -46,6 +47,9 @@
 
 <script>
   import {Message} from 'element-ui'
+  import { copyToClipboard } from "../utils";
+  import Idb from 'idb-js'
+  import db_img_config from '../db_img_config'
 
   export default {
     name: 'Uploader',
@@ -53,8 +57,8 @@
       return {
         token: '1946f169%2C1573178598%2C19b54fa1',
         links: [
-          {name: '图片链接', value: ''},
-          {name: 'MarkDown', value: ''},
+          {name: '图片链接', id: 'img', value: ''},
+          {name: 'MarkDown', id: 'markdown', value: ''},
         ],
         uploadData: {
           category: 'daily',
@@ -63,48 +67,41 @@
       }
     },
     methods: {
-      uploadSuccess(res){
+      uploadSuccess(res, file){
         console.log(res);
         if (res.message === 'success') {
           const link = res.data.image_url
           this.links[0].value = '/' + link
           this.links[1].value = `![](${link})`
+          const img = document.querySelector('#img')
+          const markdown = document.querySelector('#markdown')
+          img.value = this.links[0].value
+          markdown.value = this.links[1].value
           Message.success({
             message: '上传成功',
             duration: 1000
           })
+          Idb(db_img_config).then(img_db=>{
+            img_db.insert({
+              tableName: "img",
+              data: {
+                name: file.name,
+                url: link,
+                width: res.data.image_width,
+                height: res.data.image_height,
+              },
+              success: () => console.log("添加成功")
+            });
+          })
         } else {
           Message.error({
-            message: '上传失败' + res.message,
+            message: '上传失败:' + res.message,
             duration: 1000
           })
         }
       },
       copyToClipboard(input) {
-        const el = document.createElement('textarea')
-        el.style.fontsize = '12pt'
-        el.style.border = '0'
-        el.style.padding = '0'
-        el.style.margin = '0'
-        el.style.position = 'absolute'
-        el.style.left = '-9999px'
-        el.setAttribute('readonly', '')
-        el.value = input
-
-        document.body.appendChild(el)
-        el.select()
-
-        let success = false
-        try {
-          success = document.execCommand('copy', true)
-        } catch (err) {}
-
-        document.body.removeChild(el)
-        Message.success({
-          message: '复制成功',
-          duration: 1000
-        })
-        return success
+        copyToClipboard(input)
       },
 
       copy() {
@@ -170,6 +167,9 @@
 
   .main {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .header {
       word-break: break-all;
