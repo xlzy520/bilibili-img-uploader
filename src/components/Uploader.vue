@@ -210,7 +210,7 @@
         .link {
           display: flex;
           align-items: center;
-          margin-bottom: 20px;
+          margin-bottom: 10px;
 
           .link-result {
             width: 310px;

@@ -4,7 +4,8 @@
       <el-table-column prop="name" label="名称" width="100" show-overflow-tooltip></el-table-column>
       <el-table-column prop="thumbnail" label="缩略图" width="90">
         <template slot-scope="scope">
-          <el-image :src="scope.row.url+'@80w_80h_1e_1c.webp'" :preview-src-list="srcList"></el-image>
+          <el-image :src="scope.row.url+'@80w_80h_1e_1c.webp'"
+                    :preview-src-list="[scope.row.url+'@1e_1c.webp']"></el-image>
         </template>
       </el-table-column>
       <el-table-column prop="resolution" label="分辨率" width="120"
