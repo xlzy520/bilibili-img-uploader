@@ -18,3 +18,13 @@
 ```
 
 ### 图片样式
+| Type  | Url     | 
+| ------| --------|
+| 原图  | baseURL/1.jpg  |
+| 原分辨率，质量压缩  | baseURL/1.jpg@1e_1c.jpg  |
+| 规定宽，高度自适应，质量压缩  | baseURL/1.jpg@104w_1e_1c.jpg   |
+| 规定高，宽度自适应，质量压缩  | baseURL/1.jpg@104h_1e_1c.jpg   |
+| 规定高宽，质量压缩  | baseURL/1.jpg@104w_104h_1e_1c.jpg   |
+| 原分辨率，webp格式(占用最小)   | baseURL/1.jpg@104w_104h_1e_1c.webp |
+| 规定高度，webp格式(占用最小)   | baseURL/1.jpg@104w_104h_1e_1c.webp |
+
