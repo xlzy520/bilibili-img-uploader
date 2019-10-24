@@ -41,10 +41,6 @@
             url: 'https://i0.hdslb.com/bfs/album/bb3b6973bf1ec1885d9bc80c8540bb9b0181f1f2.jpg'
           }
         ],
-        srcList: [
-          'https://i0.hdslb.com/bfs/album/3fd1887f78c10e26b3313a221cc2debcf6793020.jpg@1e_1c.webp',
-          'https://i0.hdslb.com/bfs/album/bb3b6973bf1ec1885d9bc80c8540bb9b0181f1f2.jpg@1e_1c.webp',
-        ],
         actionButtons: ['原图', 'webp', 'jpg','文章封面']
       }
     },
