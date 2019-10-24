@@ -1,6 +1,6 @@
 chrome.browserAction.onClicked.addListener(function (tab) {
-    var w = 520;
-    var h = 450;
+    var w = 764;
+    var h = 470;
     var left = Math.round((screen.width / 2) - (w / 2));
     var top = Math.round((screen.height / 2) - (h / 2));
     chrome.windows.create({

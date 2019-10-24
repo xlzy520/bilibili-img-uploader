@@ -78,7 +78,7 @@
     },
     mounted() {
       this.getImgList()
-    },
+    }
   }
 </script>
 
