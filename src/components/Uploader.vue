@@ -70,7 +70,7 @@
       uploadSuccess(res, file){
         console.log(res);
         if (res.message === 'success') {
-          const link = res.data.image_url
+          const link = res.data.image_url.replace('http', 'https')
           this.links[0].value = '/' + link
           this.links[1].value = `![](${link})`
           const img = document.querySelector('#img')
