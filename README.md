@@ -1,8 +1,15 @@
 # bilibili_img_uploader(Chrome)
-哔哩哔哩图片上传插件，可以用于作为一个图床
+哔哩哔哩图片上传插件，可以用于作为一个图床,国内速度快,多种图片格式选择，因为发布要钱，所以推荐直接下载然后用Chrome类浏览器打开安装即可。[直接下载](https://github.com/xlzy520/bilibili-img-uploader/releases/tag/v1.0)
 
 ### 获取SESSDATA
 登录哔哩哔哩→F12打开控制台→Application→Cookies→SESSDATA
+
+### 截屏
+![](https://i0.hdslb.com/bfs/album/91db493a39a808b4f492fabcd897ea2f18afaf5e.jpg)
+![](https://i0.hdslb.com/bfs/album/c5b5b03fe0d59db5627d4ec98c72c54abee60d3a.jpg)
+
+### 下载
+[下载](https://github.com/xlzy520/bilibili-img-uploader/releases/tag/v1.0)
 
 ### 哔哩哔哩上传接口返回格式
 ```json
