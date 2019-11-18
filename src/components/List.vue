@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import {copyToClipboard} from "../utils";
+  import {copyToClipboard, parseTime} from "../utils";
   import Idb from 'idb-js'
   import db_img_config from '../db_img_config'
 
@@ -45,6 +45,9 @@
       }
     },
     methods: {
+      parseTime(time){
+        return parseTime(time)
+      },
       copy(input, type) {
         let _input = input
         switch (type) {

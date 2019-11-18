@@ -22,7 +22,7 @@
   import List from '../components/List.vue'
   import Idb from 'idb-js'
   import db_img_config from '../db_img_config'
-  import { parseTime } from "../utils";
+  import {parseTime} from "../utils";
 
   export default {
     name: 'home',
@@ -39,8 +39,8 @@
           this.$refs.list.getImgList()
         }
       },
-      exportJson(){
-        Idb(db_img_config).then(img_db=>{
+      exportJson() {
+        Idb(db_img_config).then(img_db => {
           img_db.queryAll({
             tableName: "img",
             success: (res) => {
@@ -70,7 +70,7 @@
 
   .header-button {
     position: absolute;
-    right: 0;
+    right: 9px;
     top: 8px;
   }
 </style>

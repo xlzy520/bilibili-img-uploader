@@ -83,7 +83,6 @@
           img.value = this.links[0].value
           markdown.value = this.links[1].value
           this.copyToClipboard(img.value)
-          this.$message('上传成功,已复制原图链接')
           Idb(db_img_config).then(img_db=>{
             img_db.insert({
               tableName: "img",
@@ -92,7 +91,7 @@
                 url: link,
                 width: res.data.image_width,
                 height: res.data.image_height,
-                date: parseTime()
+                date: Date.now()
               },
               success: () => console.log("添加成功")
             });

@@ -1,6 +1,6 @@
 export default {
   dbName: "img",                          // *数据库名称
-  version: 1,                                 // 数据库版本号（默认为当前时间戳）
+  version: 1.1,                                 // 数据库版本号（默认为当前时间戳）
   tables: [                                   // *数据库的表，即ObjectStore
     {
       tableName: "img",                 // *表名
@@ -20,6 +20,9 @@ export default {
         },
         {
           key: "height"
+        },
+        {
+          key: 'date'
         }
       ]
     }
