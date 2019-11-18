@@ -5,11 +5,11 @@
 登录哔哩哔哩→F12打开控制台→Application→Cookies→SESSDATA
 
 ### 截屏
-![](https://i0.hdslb.com/bfs/album/91db493a39a808b4f492fabcd897ea2f18afaf5e.jpg)
-![](https://i0.hdslb.com/bfs/album/c5b5b03fe0d59db5627d4ec98c72c54abee60d3a.jpg)
+![](https://i0.hdslb.com/bfs/album/5552e9dba6da58b77ff48c20ceab84a974ffdd05.jpg)
+![](https://i0.hdslb.com/bfs/album/c0e3817c546c67ccad5b444799ce3027408efb96.jpg)
 
 ### 下载
-[下载](https://github.com/xlzy520/bilibili-img-uploader/releases/tag/v1.0)
+[下载](https://github.com/xlzy520/bilibili-img-uploader/releases)
 
 ### 哔哩哔哩上传接口返回格式
 ```json
