@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-    <wired-tabs selected="upload" @click="getAllImgList">
-      <wired-tab name="upload" label="上传" style="display: flex;justify-content: center">
+    <el-tabs v-model="activeTab" type="border-card" @tab-click="getAllImgList">
+      <el-tab-pane name="upload" label="上传" style="display: flex;justify-content: center">
         <uploader></uploader>
-      </wired-tab>
-      <wired-tab name="list" label="图片列表" @click="getAllImgList" id="list">
+      </el-tab-pane>
+      <el-tab-pane name="list" label="图片列表">
         <list ref="list"></list>
-      </wired-tab>
-      <wired-tab name="help" label="图片参数" id="help">
+      </el-tab-pane>
+      <el-tab-pane name="help" label="图片参数">
         <img src="../assets/img-help.jpg" width="">
-      </wired-tab>
-    </wired-tabs>
+      </el-tab-pane>
+    </el-tabs>
     <div class="header-button">
       <wired-button @click="exportJson" elevation="1" type="text" size="small">导出JSON</wired-button>
     </div>
@@ -31,11 +31,13 @@
       List
     },
     data() {
-      return {}
+      return {
+        activeTab: 'upload'
+      }
     },
     methods: {
       getAllImgList(e) {
-        if (e.target.__selected === 'list') {
+        if (e.name === 'list') {
           this.$refs.list.getImgList()
         }
       },

@@ -1,17 +1,25 @@
 <template>
   <div class="img-table">
-    <el-table :data="tableData">
-      <el-table-column prop="name" label="名称" width="100" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="thumbnail" label="缩略图" width="90">
+    <el-table :data="filterTableData" :default-sort = "{prop: 'date', order: 'descending '}">
+      <el-table-column prop="name" label="名称" min-width="140" show-overflow-tooltip>
+        <template slot="header" slot-scope="scope">
+          <div class="name">
+            名称<el-input size="medium" v-model="nameSearch" placeholder="筛选"></el-input>
+           </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="thumbnail" label="缩略图"  min-width="90">
         <template slot-scope="scope">
           <el-image :src="scope.row.url+'@80w_80h_1e_1c.webp'"
                     :preview-src-list="[scope.row.url+'@1e_1c.webp']"></el-image>
         </template>
       </el-table-column>
-      <el-table-column prop="resolution" label="分辨率" width="120"
+      <el-table-column prop="resolution" label="分辨率"  min-width="110"
                        :formatter="(row)=>row.width+' X '+ row.height"></el-table-column>
-      <el-table-column prop="url" label="链接" show-overflow-tooltip width="100"></el-table-column>
-      <el-table-column prop="action" label="操作(复制)" width="300">
+      <el-table-column prop="url" label="链接" show-overflow-tooltip  min-width="100"></el-table-column>
+      <el-table-column prop="date" label="时间" sortable  min-width="98"
+                       :formatter="row=>row.date?parseTime(row.date): ''"></el-table-column>
+      <el-table-column prop="action" label="操作(复制)"  min-width="160">
         <template slot-scope="scope">
           <wired-button @click.prevent="copy(scope.row.url,index)" v-for="(btn,index) in actionButtons" :key="btn"
                         elevation="1" type="text" size="small">{{btn}}
@@ -41,7 +49,13 @@
             url: 'https://i0.hdslb.com/bfs/album/bb3b6973bf1ec1885d9bc80c8540bb9b0181f1f2.jpg'
           }
         ],
-        actionButtons: ['原图', 'webp']
+        actionButtons: ['原图', 'webp'],
+        nameSearch: ''
+      }
+    },
+    computed: {
+      filterTableData() {
+        return this.tableData.filter(row=>!this.nameSearch || row.name.includes(this.nameSearch))
       }
     },
     methods: {
@@ -76,6 +90,8 @@
   }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="less" scoped>
+.name{
+  display: flex;
+}
 </style>

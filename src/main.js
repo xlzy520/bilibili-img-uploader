@@ -4,10 +4,11 @@ import App from './App.vue'
 import 'wired-button';
 import 'wired-input';
 import 'wired-link';
-import 'wired-tabs';
-import 'wired-tab';
-import { Upload,Table, TableColumn, Image, Message } from 'element-ui';
+import {Input, Upload, Table, TableColumn, Tabs, TabPane, Image, Message} from 'element-ui';
 
+Vue.use(Input)
+Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.use(Upload)
 Vue.use(Table)
 Vue.use(TableColumn)
