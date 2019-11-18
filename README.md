@@ -1,6 +1,17 @@
 # bilibili_img_uploader(Chrome)
 哔哩哔哩图片上传插件，可以用于作为一个图床,国内速度快,多种图片格式选择，因为发布要钱，所以推荐直接下载然后用Chrome类浏览器打开安装即可。[直接下载](https://github.com/xlzy520/bilibili-img-uploader/releases/tag/v1.0)
 
+### ChangeLog
+> 1. 导出数据库数据
+> 2. 上传成功后自动复制原图链接
+> 3. 文件多选上传
+> 4. 增加`date`字段，默认最新日期在最上面
+> 5. 增加名称筛选搜索
+> 6. 删除表格操作中`文章封面`、`jpg`按钮
+> 7. 增加图片样式使用页
+> 8. `wired-tab`切换为`el-tab`
+> 9. 增加上传列表清空按钮
+
 ### 获取SESSDATA
 登录哔哩哔哩→F12打开控制台→Application→Cookies→SESSDATA
 
