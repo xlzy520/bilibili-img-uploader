@@ -13,6 +13,7 @@
     </div>
     <div class="upload">
       <el-upload drag
+                 ref="upload"
                  accept="image/*,gif,jpg,jpeg,bmp,png"
                  name="file_up"
                  :with-credentials="true"
@@ -21,6 +22,7 @@
                  action="https://api.vc.bilibili.com/api/v1/drawImage/upload">
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <wired-button elevation="3" @click.stop="clearFileList" class="clear-btn">清空</wired-button>
       </el-upload>
     </div>
     <div class="result">
@@ -67,6 +69,10 @@
       }
     },
     methods: {
+      clearFileList(){
+        this.$refs.upload.clearFiles()
+        this.$message('清空上传列表')
+      },
       uploadSuccess(res, file){
         console.log(res);
         if (res.message === 'success') {
