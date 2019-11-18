@@ -65,9 +65,10 @@
 <style lang="less">
   wired-tab {
     padding: 10px;
-    width: 99%;
+    width: 98%;
   }
-  .header-button{
+
+  .header-button {
     position: absolute;
     right: 0;
     top: 8px;
