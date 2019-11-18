@@ -6,12 +6,20 @@ import 'wired-input';
 import 'wired-link';
 import 'wired-tabs';
 import 'wired-tab';
-import { Upload,Table, TableColumn, Image } from 'element-ui';
+import { Upload,Table, TableColumn, Image, Message } from 'element-ui';
 
 Vue.use(Upload)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Image)
+Vue.prototype.$message = (text, type) => {
+  Message({
+    'showClose': true, // 是否显示关闭按钮
+    'message': text, // 消息内容
+    'type': type || 'success', // 消息类型
+    'duration': 1000 // 显示时间
+  })
+}
 
 Vue.config.productionTip = false
 

@@ -77,10 +77,8 @@
           const markdown = document.querySelector('#markdown')
           img.value = this.links[0].value
           markdown.value = this.links[1].value
-          Message.success({
-            message: '上传成功',
-            duration: 1000
-          })
+          this.copyToClipboard(img.value)
+          this.$message('上传成功,已复制原图链接')
           Idb(db_img_config).then(img_db=>{
             img_db.insert({
               tableName: "img",
@@ -94,10 +92,7 @@
             });
           })
         } else {
-          Message.error({
-            message: '上传失败:' + res.message,
-            duration: 1000
-          })
+          this.$message('上传失败:' + res.message,'error')
         }
       },
       copyToClipboard(input) {
@@ -109,10 +104,7 @@
       },
       saveToken() {
         if (this.token.length !== 32) {
-          Message.info({
-            message: '请输入32位SESSDATA',
-            duration: 1000
-          })
+          this.$message('请输入32位SESSDATA', 'info')
         } else {
           localStorage.setItem('SESSDATA', this.token)
           const cookie = {
@@ -132,13 +124,7 @@
               url: 'https://api.vc.bilibili.com', name: 'SESSDATA', value: this.token
             }, (data) => console.log(data)
           );
-          // chrome.cookies.set(cookie,function (cookie) {
-          //   console.log(cookie);
-          // })
-          Message.success({
-            message: '保存成功',
-            duration: 1000
-          })
+          this.$message('保存成功')
         }
       }
     },
