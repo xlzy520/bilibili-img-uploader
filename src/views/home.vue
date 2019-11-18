@@ -7,6 +7,9 @@
       <wired-tab name="list" label="图片列表" @click="getAllImgList" id="list">
         <list ref="list"></list>
       </wired-tab>
+      <wired-tab name="help" label="图片参数" id="help">
+        <img src="../assets/img-help.jpg" width="">
+      </wired-tab>
     </wired-tabs>
     <div class="header-button">
       <wired-button @click="exportJson" elevation="1" type="text" size="small">导出JSON</wired-button>
