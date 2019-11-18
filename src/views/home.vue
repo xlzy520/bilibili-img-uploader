@@ -8,12 +8,18 @@
         <list ref="list"></list>
       </wired-tab>
     </wired-tabs>
+    <div class="header-button">
+      <wired-button @click="exportJson" elevation="1" type="text" size="small">导出JSON</wired-button>
+    </div>
   </div>
 </template>
 
 <script>
   import Uploader from '../components/Uploader.vue'
   import List from '../components/List.vue'
+  import Idb from 'idb-js'
+  import db_img_config from '../db_img_config'
+  import { parseTime } from "../utils";
 
   export default {
     name: 'home',
@@ -29,6 +35,25 @@
         if (e.target.__selected === 'list') {
           this.$refs.list.getImgList()
         }
+      },
+      exportJson(){
+        Idb(db_img_config).then(img_db=>{
+          img_db.queryAll({
+            tableName: "img",
+            success: (res) => {
+              const content = JSON.stringify(res);
+              const blob = new Blob([content], {type: "text/plain;charset=utf-8"});
+              const url = URL.createObjectURL(blob)
+              const a = document.createElement('a')
+              a.href= url
+              a.download = parseTime() + '.json'
+              a.display = 'none'
+              document.body.appendChild(a)
+              a.click()
+              document.body.removeChild(a)
+            }
+          });
+        })
       }
     },
   }
@@ -37,6 +62,11 @@
 <style lang="less">
   wired-tab {
     padding: 10px;
-    /*width: 54%;*/
+    width: 99%;
+  }
+  .header-button{
+    position: absolute;
+    right: 0;
+    top: 8px;
   }
 </style>
