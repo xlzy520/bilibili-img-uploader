@@ -19,6 +19,7 @@
                  :with-credentials="true"
                  :data="uploadData"
                  :on-success="uploadSuccess"
+                 multiple
                  action="https://api.vc.bilibili.com/api/v1/drawImage/upload">
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -48,8 +49,7 @@
 </template>
 
 <script>
-  import {Message} from 'element-ui'
-  import { copyToClipboard } from "../utils";
+  import { copyToClipboard, parseTime } from "../utils";
   import Idb from 'idb-js'
   import db_img_config from '../db_img_config'
 
@@ -74,7 +74,6 @@
         this.$message('清空上传列表')
       },
       uploadSuccess(res, file){
-        console.log(res);
         if (res.message === 'success') {
           const link = res.data.image_url.replace('http', 'https')
           this.links[0].value = link
@@ -93,6 +92,7 @@
                 url: link,
                 width: res.data.image_width,
                 height: res.data.image_height,
+                date: parseTime()
               },
               success: () => console.log("添加成功")
             });
@@ -104,27 +104,11 @@
       copyToClipboard(input) {
         copyToClipboard(input)
       },
-
-      copy() {
-
-      },
       saveToken() {
         if (this.token.length !== 32) {
           this.$message('请输入32位SESSDATA', 'info')
         } else {
           localStorage.setItem('SESSDATA', this.token)
-          const cookie = {
-            domain: "www.baidu.com",
-            hostOnly: true,
-            httpOnly: false,
-            name: "SESSDATA",
-            path: "/",
-            sameSite: "unspecified",
-            secure: false,
-            session: true,
-            storeId: "0",
-            value: "121d3as1d2sad2sad"
-            }
           chrome.cookies.set(
             {
               url: 'https://api.vc.bilibili.com', name: 'SESSDATA', value: this.token
@@ -194,6 +178,13 @@
         .el-icon-upload {
           margin: 20px 0 16px;
         }
+      }
+      .clear-btn{
+        position: relative;
+        left: 146px;
+        bottom: 27px;
+        background: bisque;
+
       }
     }
 
