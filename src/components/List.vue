@@ -49,7 +49,7 @@
             url: 'https://i0.hdslb.com/bfs/album/bb3b6973bf1ec1885d9bc80c8540bb9b0181f1f2.jpg'
           }
         ],
-        actionButtons: ['原图', 'webp'],
+        actionButtons: ['原图', 'webp', 'MD'],
         nameSearch: ''
       }
     },
@@ -67,6 +67,9 @@
         switch (type) {
           case 1:
             _input += '@1e_1c.webp'
+            break;
+          case 2:
+            _input = `![](${_input+'@1e_1c.webp'})`
             break;
           default:
             break
