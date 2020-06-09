@@ -16,6 +16,7 @@ https://github.com/xlzy520/blog/issues/22
 > 7. 增加图片样式使用页
 > 8. `wired-tab`切换为`el-tab`
 > 9. 增加上传列表清空按钮
+> 10. 增加直接复制MD图片链接(webp)
 
 ### 获取SESSDATA
 登录哔哩哔哩→F12打开控制台→Application→Cookies→SESSDATA
