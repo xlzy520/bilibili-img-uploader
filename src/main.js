@@ -4,7 +4,7 @@ import App from './App.vue'
 import 'wired-button';
 import 'wired-input';
 import 'wired-link';
-import {Input, Upload, Table, TableColumn, Tabs, TabPane, Image, Message} from 'element-ui';
+import {Input, Upload, Table, TableColumn, Tabs, TabPane, Image, Message, pagination} from 'element-ui';
 
 Vue.use(Input)
 Vue.use(Tabs)
@@ -13,6 +13,7 @@ Vue.use(Upload)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Image)
+Vue.use(pagination)
 Vue.prototype.$message = (text, type) => {
   Message({
     'showClose': true, // 是否显示关闭按钮

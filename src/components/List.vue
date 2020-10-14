@@ -28,6 +28,19 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="footer-pagination">
+      <el-pagination
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="pageNo"
+          :page-sizes="[10, 20, 50]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+      </el-pagination>
+    </div>
+
   </div>
 </template>
 
@@ -40,6 +53,9 @@
     name: 'List',
     data() {
       return {
+        pageNo: 1,
+        pageSize: 10,
+        total: 0,
         tableData: [
           {
             name: '654846546.jpg', width: 1920, height: 1080,
@@ -82,11 +98,22 @@
           img_db.queryAll({
             tableName: "img",
             success: r => {
-              this.tableData = r
+              this.total = r.length
+              const start = (this.pageNo - 1) * this.pageSize
+              const end = start + this.pageSize
+              this.tableData = r.slice(start, end)
             }
           });
         })
-      }
+      },
+      handleSizeChange (val){
+        this.pageSize = val
+        this.getImgList()
+      },
+      handleCurrentChange (val){
+        this.pageNo = val
+        this.getImgList()
+      },
     },
     mounted() {
       this.getImgList()
@@ -95,7 +122,11 @@
 </script>
 
 <style lang="less" scoped>
-.name{
-  display: flex;
-}
+  .name{
+    display: flex;
+  }
+  .footer-pagination{
+    text-align: center;
+    padding: 20px 0;
+  }
 </style>
