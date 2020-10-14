@@ -1,6 +1,6 @@
 <template>
   <div class="img-table">
-    <el-table :data="filterTableData" :default-sort = "{prop: 'date', order: 'descending '}">
+    <el-table :data="filterTableData" :default-sort="{prop: 'date', order: 'descending'}">
       <el-table-column prop="name" label="名称" min-width="140" show-overflow-tooltip>
         <template slot="header" slot-scope="scope">
           <div class="name">
@@ -17,7 +17,8 @@
       <el-table-column prop="resolution" label="分辨率"  min-width="110"
                        :formatter="(row)=>row.width+' X '+ row.height"></el-table-column>
       <el-table-column prop="url" label="链接" show-overflow-tooltip  min-width="100"></el-table-column>
-      <el-table-column prop="date" label="时间" sortable  min-width="98"
+      <el-table-column prop="date" label="时间" sortable
+                       min-width="98"
                        :formatter="row=>row.date?parseTime(row.date): ''"></el-table-column>
       <el-table-column prop="action" label="操作(复制)"  min-width="160">
         <template slot-scope="scope">
