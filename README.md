@@ -18,13 +18,14 @@ https://github.com/xlzy520/blog/issues/22
 > 9. 增加上传列表清空按钮
 > 10. 增加直接复制MD图片链接(webp)
 > 11. 增加JSON数据导入功能(新)
+> 11. 增加筛选、分页、排序功能(新)
 
 ### 获取SESSDATA
 登录哔哩哔哩→F12打开控制台→Application→Cookies→SESSDATA
 
 ### 截屏
 ![](https://i0.hdslb.com/bfs/album/5552e9dba6da58b77ff48c20ceab84a974ffdd05.jpg)
-![](https://i0.hdslb.com/bfs/album/c0e3817c546c67ccad5b444799ce3027408efb96.jpg)
+![](https://i0.hdslb.com/bfs/album/06f93bd913407db0f8e3a2094b5f8d27dee863a8.png)
 
 ### 下载
 [下载](https://github.com/xlzy520/bilibili-img-uploader/releases)
