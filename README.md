@@ -4,6 +4,8 @@
 ### 使用方法
 https://github.com/xlzy520/blog/issues/22
 
+### TODO
+- 增加标签属性与筛选条件
 
 
 ### ChangeLog
