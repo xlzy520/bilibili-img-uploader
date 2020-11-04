@@ -1,5 +1,7 @@
 # bilibili_img_uploader(Chrome)
-哔哩哔哩图片上传插件，可以用于作为一个图床,国内速度快,多种图片格式选择，因为发布要钱，所以推荐直接下载然后用Chrome类浏览器打开安装即可。**由于打包出来的crx文件不能在最新版Chrome浏览器中开启，所以现在需要在开发者模式下，通过 加载已解压的扩展程序 按钮进行安装解压后的dist文件夹**[下载]( https://cdn.jsdelivr.net/gh/xlzy520/bilibili-img-uploader/dist.zip)
+哔哩哔哩图片上传插件，可以用于作为一个图床,国内速度快,多种图片格式选择。
+由于发布到Chrome插件市场需要收费，所以推荐直接下载然后用Chrome类浏览器打开安装即可。
+**由于打包出来的crx文件不能在最新版Chrome浏览器中开启，所以现在需要在开发者模式下，通过 加载已解压的扩展程序 按钮进行安装解压后的dist文件夹**[下载]( https://cdn.jsdelivr.net/gh/xlzy520/bilibili-img-uploader/dist.zip)
 
 ### 使用方法
 https://github.com/xlzy520/blog/issues/22
