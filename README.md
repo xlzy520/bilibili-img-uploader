@@ -1,7 +1,14 @@
 # bilibili_img_uploader(Chrome)
 哔哩哔哩图片上传插件，可以用于作为一个图床,国内速度快,多种图片格式选择。
-由于发布到Chrome插件市场需要收费，所以推荐直接下载然后用Chrome类浏览器打开安装即可。
-**由于打包出来的crx文件不能在最新版Chrome浏览器中开启，所以现在需要在开发者模式下，通过 加载已解压的扩展程序 按钮进行安装解压后的dist文件夹**[下载]( https://github.com/xlzy520/bilibili-img-uploader/releases/latest)
+由于发布到Chrome插件市场需要收费，所以推荐直接下载解压之后用Chrome类浏览器手动导入安装即可。
+
+### 下载
+[下载](https://github.com/xlzy520/bilibili-img-uploader/releases/latest)
+
+### 安装步骤
+1. 进入`拓展程序`,可以通过地址栏输入`chrome://extensions/`，也可以从 `更多工具`->`拓展程序`进入
+2. 右上角开启`开发者模式`
+3. 左侧点击 `加载已解压的拓展程序`,然后选择上面下载好的压缩包解压后的文件夹即可。
 
 ### 使用方法
 https://github.com/xlzy520/blog/issues/22
@@ -30,9 +37,6 @@ https://github.com/xlzy520/blog/issues/22
 ### 截屏
 ![](https://i0.hdslb.com/bfs/album/5552e9dba6da58b77ff48c20ceab84a974ffdd05.jpg)
 ![](https://i0.hdslb.com/bfs/album/06f93bd913407db0f8e3a2094b5f8d27dee863a8.png)
-
-### 下载
-[下载](https://github.com/xlzy520/bilibili-img-uploader/releases/latest)
 
 ### 哔哩哔哩上传接口返回格式
 ```json
