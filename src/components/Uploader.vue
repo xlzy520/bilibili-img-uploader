@@ -53,6 +53,7 @@
   import { copyToClipboard, parseTime, getPasteImg } from "../utils";
   import Idb from 'idb-js'
   import db_img_config from '../db_img_config'
+  import uuid from 'uuidjs'
 
   export default {
     name: 'Uploader',
@@ -98,6 +99,7 @@
             img_db.insert({
               tableName: "img",
               data: {
+                id: uuid.generate(),
                 name: file.name,
                 url: link,
                 width: res.data.image_width,

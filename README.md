@@ -15,7 +15,6 @@ https://github.com/xlzy520/blog/issues/22
 
 ### TODO
 - 增加标签属性与筛选条件
-- 增加粘贴上传功能
 
 
 ### ChangeLog
@@ -31,6 +30,7 @@ https://github.com/xlzy520/blog/issues/22
 > 10. 增加直接复制MD图片链接(webp)
 > 11. 增加JSON数据导入功能(新)
 > 11. 增加筛选、分页、排序功能(新)
+> 12. 增加粘贴上传功能
 
 ### 获取SESSDATA
 登录哔哩哔哩→F12打开控制台→Application→Cookies→SESSDATA

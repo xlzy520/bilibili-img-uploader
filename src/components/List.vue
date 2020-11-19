@@ -38,11 +38,6 @@
     </header>
     <el-table :data="tableData" :default-sort="{prop: 'date', order: 'descending'}">
       <el-table-column prop="name" label="名称" min-width="140" show-overflow-tooltip>
-<!--        <template slot="header" slot-scope="scope">-->
-<!--          <div class="df">-->
-<!--            名称<el-input size="medium" v-model="nameSearch" placeholder="筛选"></el-input>-->
-<!--           </div>-->
-<!--        </template>-->
       </el-table-column>
       <el-table-column prop="thumbnail" label="缩略图"  min-width="90">
         <template slot-scope="scope">
@@ -58,9 +53,19 @@
                        :formatter="row=>row.date?parseTime(row.date): ''"></el-table-column>
       <el-table-column prop="action" label="操作(复制)"  min-width="160">
         <template slot-scope="scope">
-          <wired-button @click.prevent="copy(scope.row.url,index)" v-for="(btn,index) in actionButtons" :key="btn"
-                        elevation="1" type="text" size="small">{{btn}}
-          </wired-button>
+          <wired-button @click.prevent="copy(scope.row, 'MD')" elevation="1"
+                        type="text" size="small">MD</wired-button>
+          <el-dropdown @command="cmd=>handleCommand(cmd, scope.row)">
+            <wired-button elevation="1" type="text" size="small">...</wired-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="origin">原图</el-dropdown-item>
+              <el-dropdown-item command="webp">webp</el-dropdown-item>
+              <el-dropdown-item command="delete">
+                <span class="danger delete">删除</span>
+              </el-dropdown-item>
+<!--              <el-dropdown-item divided>蚵仔煎</el-dropdown-item>-->
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -102,7 +107,7 @@
             url: 'https://i0.hdslb.com/bfs/album/bb3b6973bf1ec1885d9bc80c8540bb9b0181f1f2.jpg'
           }
         ],
-        actionButtons: ['原图', 'webp', 'MD'],
+        actionButtons: ['MD'],
         nameSearch: '',
         filter: {
           name: '',
@@ -121,19 +126,19 @@
       parseTime(time){
         return parseTime(time)
       },
-      copy(input, type) {
-        let _input = input
+      copy(row, type) {
+        let url = row.url
         switch (type) {
-          case 1:
-            _input += '@1e_1c.webp'
+          case 'webp':
+            url += '@1e_1c.webp'
             break;
-          case 2:
-            _input = `![](${_input+'@1e_1c.webp'})`
+          case 'MD':
+            url = `![](${url+'@1e_1c.webp'})`
             break;
           default:
             break
         }
-        copyToClipboard(_input)
+        copyToClipboard(url)
       },
       isIncludesName(name, key){
         if(!key) return true;
@@ -151,7 +156,6 @@
         }
       },
       InDate(row, date){
-        console.log(date);
         if (!date) return true
         const [ start, end ] = date
         return row.date >= start && row.date <= end
@@ -188,6 +192,40 @@
         this.pageNo = val
         this.getImgList()
       },
+      deleteImg(row){
+        this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          Idb(db_img_config).then(img_db=>{
+            img_db.delete({
+              tableName: "img",
+              condition: (item)=> {
+                if (row.id) {
+                  return item.id === row.id
+                }
+                return item.date === row.date
+              },
+              success: (res) => {
+                this.$message("删除成功");
+                this.getImgList();
+              }
+            });
+          })
+        }).catch(() => {
+        });
+      },
+      handleCommand (command, row){
+        switch (command) {
+          case 'webp': case 'MD': case 'origin':
+            this.copy(row.url, command);
+            break;
+          case 'delete':
+            this.deleteImg(row);
+            break;
+        }
+      },
     },
     mounted() {
       this.getImgList()
@@ -213,5 +251,8 @@
       align-items: center;
       margin-right: 10px;
     }
+  }
+  .danger{
+    color: #ff001c;
   }
 </style>

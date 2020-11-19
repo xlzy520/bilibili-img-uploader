@@ -8038,6 +8038,11 @@ uuid@^3.0.1, uuid@^3.3.2:
   resolved "https://registry.npm.taobao.org/uuid/download/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
   integrity sha1-RWjwIW54dg7h2/Ok0s9T4iQRKGY=
 
+uuidjs@^4.2.6:
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/uuidjs/-/uuidjs-4.2.6.tgz#6dccb3e45ccb351daf0be3f107c37911e369c810"
+  integrity sha512-MN+qOwkX8k2V4p+qDDUzHc1gvBu1tCCB2p3cjOdMoeGfTUywATUBcQkqqaFR7Snd72FAY7HfBzkoAv7HxoCxuA==
+
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
   resolved "https://registry.npm.taobao.org/validate-npm-package-license/download/validate-npm-package-license-3.0.4.tgz#fc91f6b9c7ba15c857f4cb2c5defeec39d4f410a"
