@@ -58,3 +58,41 @@ export const parseTime = (time = new Date(), format = '{y}-{m}-{d} {h}:{i}:{s}')
   return time_str
 }
 
+export const filterImages = (items) => {
+  let i = 0
+  while (i < items.length) {
+    if (items[i].type.indexOf('image') !== -1) {
+      return items[i]
+    }
+    i++
+  }
+  return false
+}
+export const getFilename = (e) => {
+  let value
+  if (window.clipboardData && window.clipboardData.getData) {
+    value = window.clipboardData.getData('Text')
+  } else if (e.clipboardData && e.clipboardData.getData) {
+    value = e.clipboardData.getData('text/plain')
+  }
+  value = value.split('\r')
+  return value[0]
+}
+
+export const getPasteImg = (event) => {
+  if (event.clipboardData && event.clipboardData.items) {
+    const image = filterImages(event.clipboardData.items)
+    if (image) {
+      event.preventDefault()
+      var file = image.getAsFile()
+      let name = getFilename(event) || 'image-' + Date.now() + '.png'
+      file.uid = name
+      return {
+        name,
+        raw: file,
+        uid: name,
+        status: 'ready'
+      }
+    }
+  }
+}

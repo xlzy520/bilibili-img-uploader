@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" @paste="handleTPaste">
     <div class="header">
       <wired-link elevation="1" href="https://github.com/xlzy520/bilibili-img-uploader/blob/master/README.md"
                   target="_blank">如何获取SESSDATA？如何使用图片样式？</wired-link>
@@ -18,6 +18,7 @@
                  name="file_up"
                  :with-credentials="true"
                  :data="uploadData"
+                 :file-list="fileList"
                  :on-success="uploadSuccess"
                  multiple
                  action="https://api.vc.bilibili.com/api/v1/drawImage/upload">
@@ -49,7 +50,7 @@
 </template>
 
 <script>
-  import { copyToClipboard, parseTime } from "../utils";
+  import { copyToClipboard, parseTime, getPasteImg } from "../utils";
   import Idb from 'idb-js'
   import db_img_config from '../db_img_config'
 
@@ -65,10 +66,20 @@
         uploadData: {
           category: 'daily',
           biz: 'draw'
-        }
+        },
+        fileList: []
       }
     },
     methods: {
+      handleTPaste (event) {
+        const image = getPasteImg(event)
+        if (image) {
+          this.fileList.push(image)
+          this.$nextTick(() => {
+            this.$refs.upload.submit();
+          })
+        }
+      },
       clearFileList(){
         this.$refs.upload.clearFiles()
         this.$message('清空上传列表')
