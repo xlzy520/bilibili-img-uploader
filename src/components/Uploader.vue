@@ -14,7 +14,7 @@
     <div class="upload">
       <el-upload drag
                  ref="upload"
-                 accept="image/*,gif,jpg,jpeg,bmp,png"
+                 accept="image/*"
                  name="file_up"
                  :with-credentials="true"
                  :data="uploadData"
