@@ -6,7 +6,7 @@ import 'wired-input';
 import 'wired-link';
 import {
   Input, Upload, Table, TableColumn, Tabs, TabPane, Image, Message, pagination, DatePicker, Select,
-  Option
+  Option, Dropdown, DropdownItem, DropdownMenu, MessageBox, Dialog, Popover
 } from 'element-ui';
 
 Vue.use(Input)
@@ -20,6 +20,14 @@ Vue.use(pagination)
 Vue.use(DatePicker)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Dropdown)
+Vue.use(DropdownItem)
+Vue.use(DropdownMenu)
+Vue.use(MessageBox.name, MessageBox)
+Vue.use(Dialog)
+Vue.use(Popover)
+
+Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$message = (text, type) => {
   Message({
     'showClose': true, // 是否显示关闭按钮
