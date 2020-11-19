@@ -31,6 +31,7 @@ https://github.com/xlzy520/blog/issues/22
 > 11. 增加JSON数据导入功能(新)
 > 11. 增加筛选、分页、排序功能(新)
 > 12. 增加粘贴上传功能
+> 13. 增加删除功能
 
 ### 获取SESSDATA
 登录哔哩哔哩→F12打开控制台→Application→Cookies→SESSDATA
