@@ -23,7 +23,7 @@
                  multiple
                  action="https://api.vc.bilibili.com/api/v1/drawImage/upload">
         <i class="el-icon-upload"></i>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__text">支持粘贴、拖动、点击文件上传</div>
         <wired-button elevation="3" @click.stop="clearFileList" class="clear-btn">清空</wired-button>
       </el-upload>
     </div>
