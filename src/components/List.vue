@@ -176,6 +176,7 @@
             tableName: "img",
             success: r => {
               r = this.filterQuery(r)
+              r = r.sort((a,b)=> b.date - a.date)
               this.total = r.length
               const start = (this.pageNo - 1) * this.pageSize
               const end = start + this.pageSize
@@ -229,6 +230,7 @@
     },
     mounted() {
       this.getImgList()
+      console.log(2);
     }
   }
 </script>
