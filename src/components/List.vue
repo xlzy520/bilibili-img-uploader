@@ -55,10 +55,11 @@
         <template slot-scope="scope">
           <wired-button @click.prevent="copy(scope.row, 'MD')" elevation="1"
                         type="text" size="small">MD</wired-button>
+          <wired-button @click.prevent="copy(scope.row, 'origin')" elevation="1"
+                        type="text" size="small">原图</wired-button>
           <el-dropdown @command="cmd=>handleCommand(cmd, scope.row)">
             <wired-button elevation="1" type="text" size="small">...</wired-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="origin">原图</el-dropdown-item>
               <el-dropdown-item command="webp">webp</el-dropdown-item>
               <el-dropdown-item command="delete">
                 <span class="danger delete">删除</span>
@@ -171,6 +172,7 @@
         return result
       },
       getImgList(){
+        console.log(2);
         Idb(db_img_config).then(img_db=>{
           img_db.queryAll({
             tableName: "img",
@@ -220,7 +222,7 @@
       handleCommand (command, row){
         switch (command) {
           case 'webp': case 'MD': case 'origin':
-            this.copy(row.url, command);
+            this.copy(row, command);
             break;
           case 'delete':
             this.deleteImg(row);
@@ -229,8 +231,7 @@
       },
     },
     mounted() {
-      this.getImgList()
-      console.log(2);
+      // this.getImgList()
     }
   }
 </script>
