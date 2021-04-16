@@ -20,7 +20,7 @@
 https://github.com/xlzy520/blog/issues/22
 
 ### 原理
-调用上传图片api接口(不仅限于B站)，通过Chrome插件的能力，给接口带上自定义的cookie
+**调用上传图片api接口(不仅限于B站)，通过Chrome插件的能力，给接口带上自定义的`cookie`**
 ```js
 // 核心
 chrome.cookies.set({
