@@ -1,48 +1,23 @@
 <template>
-  <div class="main" @paste="handleTPaste">
-    <div class="config">
-      <div class="config-title">配置</div>
-      <div class="config-form">
-        <div class="form-item">
-          <div class="label">Cookie名字</div>
-          <div class="content">
-            <el-input placeholder="你的哔哩哔哩SESSDATA" v-model="token" class="token-input"></el-input>
-          </div>
-        </div>
-      </div>
+  <div class="request">
+    <h3>TODO</h3>
+    <div class="todo">
+      通过设置自定义URL，请求方式，该域名下权限校验的cookie的name，自动获取到值，并设置自定义传参，进行接口请求，
+      可以当做是一个postman
     </div>
-    <div class="token">
-      <label>SESSDATA：</label>
-      <el-input placeholder="你的哔哩哔哩SESSDATA" v-model="token" class="token-input"></el-input>
-      <el-button type="primary" round class="submit-btn" @click="saveToken">保存</el-button>
-    </div>
-    <div class="upload">
-      <el-upload drag
-                 ref="upload"
-                 accept="image/*"
-                 name="file_up"
-                 :with-credentials="true"
-                 :data="uploadData"
-                 :file-list="fileList"
-                 :on-success="uploadSuccess"
-                 multiple
-                 :action="uploadAction">
-        <i class="el-icon-upload"></i>
-        <div class="el-upload__text">支持粘贴、拖动、点击文件上传</div>
-        <el-button elevation="3" @click.stop="clearFileList" class="clear-btn">清空</el-button>
-      </el-upload>
-    </div>
-    <div class="result">
-      <div class="link-area">
-        <div class="link" v-for="link in links" :key="link.name">
-          <label>{{link.name}}：</label>
-          <div class="content">
-            <el-input v-model="link.value" :id="link.id" class="link-result"></el-input>
-            <el-button type="primary" icon="copy" round @click="copyToClipboard(link.value)">复制</el-button>
+    <div>
+      <h3>例如直接通过已经登录过B站的浏览器获取B站的注册时间：</h3>
+      <p class="">domain: https://bilibili.com</p>
+      <p class="">url: {{url}}</p>
+      <p class="">cookie auth name:  SESSDATA</p>
 
-          </div>
-        </div>
-      </div>
+      <p class="">
+        token： {{token}}    (根据填入的url和cookie的key自动获取)
+      </p>
+      <p>请求方式： get</p>
+      <p>请求结果：</p>
+      <p class="el-button--warning">注册时间: {{result.jointime}}</p>
+
     </div>
   </div>
 </template>
@@ -59,6 +34,7 @@
       return {
         uploadAction: this.$uploadUrl,
         token: '1946f169%2C1573178598%2C19b54fa1',
+        url: 'https://member.bilibili.com/x2/creative/h5/calendar/card?ts=1576425600&spm_id_from=333.788.b_636f6d6d656e74.6',
         links: [
           {name: '图片链接', id: 'img', value: ''},
           {name: 'MarkDown', id: 'markdown', value: ''},
@@ -67,168 +43,40 @@
           category: 'daily',
           biz: 'draw'
         },
-        fileList: []
+        fileList: [],
+        result: ''
       }
     },
     methods: {
-      handleTPaste (event) {
-        const image = getPasteImg(event)
-        if (image) {
-          this.fileList.push(image)
-          this.$nextTick(() => {
-            this.$refs.upload.submit();
-          })
-        }
-      },
-      clearFileList(){
-        this.$refs.upload.clearFiles()
-        this.$message('清空上传列表')
-      },
-      uploadSuccess(res, file){
-        if (res.message === 'success') {
-          const link = res.data.image_url.replace('http', 'https')
-          this.links[0].value = link
-          this.links[1].value = `![](${link})`
-          const img = document.querySelector('#img')
-          const markdown = document.querySelector('#markdown')
-          img.value = this.links[0].value
-          markdown.value = this.links[1].value
-          this.copyToClipboard(img.value)
-          Idb(db_img_config).then(img_db=>{
-            img_db.insert({
-              tableName: "img",
-              data: {
-                id: uuid.generate(),
-                name: file.name,
-                url: link,
-                width: res.data.image_width,
-                height: res.data.image_height,
-                date: Date.now()
-              },
-              success: () => console.log("添加成功")
-            });
-          })
-        } else {
-          this.$message('上传失败:' + res.message,'error')
-        }
-      },
-      copyToClipboard(input) {
-        copyToClipboard(input)
-      },
-      saveToken() {
-        if (!this.token) {
-          this.$message('请输入32位SESSDATA', 'info')
-        } else {
-          localStorage.setItem('SESSDATA', this.token)
-          chrome.cookies.get(
-              {
-                url: 'https://bilibili.com', name: 'SESSDATA'
-              }, (data) => console.log(data)
-          );
-          chrome.cookies.set(
+      getBiliCookie(){
+        chrome.cookies.get(
             {
-              url: 'https://api.vc.bilibili.com', name: 'SESSDATA', value: this.token
-            }, (data) => console.log(data)
-          );
-          this.$message('保存成功')
-        }
+              url: 'https://bilibili.com', name: 'SESSDATA'
+            }, (data) => {
+              console.log(data)
+              if (data.value) {
+                this.token = data.value
+              }
+            }
+        );
+      },
+      fetch(){
+        fetch(this.url, {
+          method: 'get',
+        }).then(res=> res.json()).then(res=>{
+          console.log(res);
+          this.result = res.data
+        })
       }
     },
     mounted() {
-      const token = localStorage.getItem('SESSDATA')
-      if (token) {
-        this.token = token
-      }
+      this.getBiliCookie()
+      this.fetch()
     },
   }
 </script>
 <style lang="less">
-  :host {
-    display: block;
-    padding: 16px;
-  }
+ .todo{
 
-  a {
-    color: #F596AA;
-    cursor: pointer;
-  }
-
-  label {
-    width: 100px;
-  }
-
-  .main {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .header {
-      word-break: break-all;
-    }
-
-    .token {
-      display: flex;
-      align-items: center;
-      /*justify-content: space-between;*/
-
-      .token-input {
-        font-size: 15px;
-        width: 310px;
-        /*height: 40px;*/
-        line-height: 40px;
-      }
-
-      .submit-btn {
-        height: 33px;
-      }
-    }
-
-    .upload {
-      text-align: center;
-      padding: 15px 0;
-
-      .el-upload-dragger {
-        height: 120px;
-
-        .el-icon-upload {
-          margin: 20px 0 16px;
-        }
-      }
-      .clear-btn{
-        position: relative;
-        left: 146px;
-        bottom: 27px;
-        background: bisque;
-
-      }
-    }
-
-    .result {
-      .link-area {
-        .link {
-          display: flex;
-          align-items: center;
-          margin-bottom: 10px;
-
-          .link-result {
-            width: 310px;
-          }
-        }
-      }
-    }
-
-    .footer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      color: gray;
-
-      .author {
-        color: rosybrown;
-      }
-    }
-  }
-
+ }
 </style>
