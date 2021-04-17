@@ -13,8 +13,8 @@ jobs:
       - uses: actions/checkout@v1
       - name: "build and zip"    # 先build，然后压缩dist为压缩包
         run: |
-          npm install && npm run build:pro
-          zip -r bilibili.zip dist
+          npm install && npm run build
+          zip -r bilibili.zip extension
       - uses: xresloader/upload-to-github-release@master   # 使用第三方Action发布
         env:
           GITHUB_TOKEN: ${{ secrets.A }}
