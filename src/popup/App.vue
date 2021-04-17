@@ -19,13 +19,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Home from './views/Home.vue'
 import ImportButtons from "./components/ImportButtons.vue";
 export default defineComponent({
     name: 'App',
     components: {
       ImportButtons,
-        Home
     },
   data() {
     return {
