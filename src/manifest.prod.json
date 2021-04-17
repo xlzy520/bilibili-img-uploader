@@ -3,7 +3,7 @@
   "name": "哔哩哔哩图床",
   "short_name": "哔哩哔哩图床",
   "description": "通过哔哩哔哩存储建立图床",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "icons": {
     "16": "icons/favicon@16.png",
     "48": "icons/favicon@48.png",
