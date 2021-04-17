@@ -1,4 +1,4 @@
-import {Message} from "element-ui";
+import { ElMessage } from "element-plus";
 
 export const copyToClipboard = function(input) {
   const el = document.createElement('textarea')
@@ -20,7 +20,7 @@ export const copyToClipboard = function(input) {
   } catch (err) {}
   
   document.body.removeChild(el)
-  Message.success({
+  ElMessage.success({
     message: '复制成功',
     duration: 1000
   })

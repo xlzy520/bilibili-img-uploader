@@ -1,0 +1,40 @@
+{
+    "compilerOptions": {
+        /* Basic Options */
+        "jsx": "react",
+        "isolatedModules": true,
+
+        /* Strict Type-Checking Options */
+        "strict": true,
+
+        /* Additional Checks */
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+
+        /* Module Resolution Options */
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+
+        /* Experimental Options */
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+
+        /* Advanced Options */
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+
+        // 下面这些选项对 babel 编译 TypeScript 没有作用但是可以让 VSCode 等编辑器正确提示错误
+        "target": "ES2020",
+        "module": "ESNext",
+
+        "types": ["@types/chrome", "node"],
+        "typeRoots": [ "node_modules/@types" ],
+
+      "paths": {
+        "@/*": ["src/*"]
+      }
+    }
+}

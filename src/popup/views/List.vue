@@ -9,11 +9,12 @@
       <div class="filter-item">
         <div class="filter-input">
           <el-input placeholder="分辨率范围(宽X高)" v-model="filter.resolution" clearable>
-            <el-select style="width: 100px" v-model="filter.area"
-                       slot="prepend" placeholder="请选择">
-              <el-option label="小于等于" value="1"></el-option>
-              <el-option label="大于等于" value="2"></el-option>
-            </el-select>
+            <template #prepend>
+              <el-select style="width: 100px" v-model="filter.area" placeholder="请选择">
+                <el-option label="小于等于" value="1">小于等于</el-option>
+                <el-option label="大于等于" value="2">大于等于</el-option>
+              </el-select>
+            </template>
           </el-input>
         </div>
       </div>
@@ -33,14 +34,14 @@
         </div>
       </div>
       <div class="filter-item submit">
-        <wired-button elevation="3" class="submit-btn" @click="getImgList">查询</wired-button>
+        <el-button type="primary" class="submit-btn" @click="getImgList">查询</el-button>
       </div>
     </header>
     <el-table :data="tableData" :default-sort="{prop: 'date', order: 'descending'}">
       <el-table-column prop="name" label="名称" min-width="140" show-overflow-tooltip>
       </el-table-column>
       <el-table-column prop="thumbnail" label="缩略图"  min-width="90">
-        <template slot-scope="scope">
+        <template v-slot:default="scope">
           <el-image :src="scope.row.url+'@80w_80h_1e_1c.webp'"
                     :preview-src-list="[scope.row.url+'@1e_1c.webp']"></el-image>
         </template>
@@ -52,20 +53,19 @@
                        min-width="98"
                        :formatter="row=>row.date?parseTime(row.date): ''"></el-table-column>
       <el-table-column prop="action" label="操作(复制)"  min-width="160">
-        <template slot-scope="scope">
-          <wired-button @click.prevent="copy(scope.row, 'MD')" elevation="1"
-                        type="text" size="small">MD</wired-button>
-          <wired-button @click.prevent="copy(scope.row, 'origin')" elevation="1"
-                        type="text" size="small">原图</wired-button>
-          <el-dropdown @command="cmd=>handleCommand(cmd, scope.row)">
-            <wired-button elevation="1" type="text" size="small">...</wired-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="webp">webp</el-dropdown-item>
-              <el-dropdown-item command="delete">
-                <span class="danger delete">删除</span>
-              </el-dropdown-item>
-<!--              <el-dropdown-item divided>蚵仔煎</el-dropdown-item>-->
-            </el-dropdown-menu>
+        <template v-slot:default="scope">
+          <el-button type="primary" plain @click="copy(scope.row, 'MD')" size="small">MD</el-button>
+          <el-button type="primary" plain @click="copy(scope.row, 'origin')" size="small">原图</el-button>
+          <el-dropdown style="margin-left: 10px" @command="cmd=>handleCommand(cmd, scope.row)">
+            <el-button size="small">...</el-button>
+            <template #dropdown>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="webp">webp</el-dropdown-item>
+                <el-dropdown-item command="delete">
+                  <span class="danger delete">删除</span>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
           </el-dropdown>
         </template>
       </el-table-column>
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-  import {copyToClipboard, parseTime} from "../utils";
+  import {copyToClipboard, parseTime} from "../../utils";
   import Idb from 'idb-js'
   import db_img_config from '../db_img_config'
 
