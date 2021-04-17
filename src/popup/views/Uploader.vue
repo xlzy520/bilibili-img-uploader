@@ -208,17 +208,20 @@
       text-align: center;
       padding: 15px 0;
 
+      .el-upload__text{
+        color: #1296bd;
+      }
       .el-upload-dragger {
         height: 120px;
-
+        line-height: 120px;
         .el-icon-upload {
           margin: 20px 0 16px;
         }
       }
       .clear-btn{
-        position: relative;
-        left: 146px;
-        bottom: 27px;
+        position: absolute;
+        right: 0;
+        bottom: 0;
         background: #ccc;
       }
     }
