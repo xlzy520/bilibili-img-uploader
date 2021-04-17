@@ -17,9 +17,11 @@ module.exports = (api) => {
   const importPlugin = [
     'import',
     {
-      libraryName: 'antd',
-      libraryDirectory: 'es',
-      style: true,
+      libraryName: 'element-plus',
+      customStyleName: (name) => {
+        name = name.slice(3)
+        return `element-plus/packages/theme-chalk/src/${name}.scss`;
+      },
     },
   ];
   
