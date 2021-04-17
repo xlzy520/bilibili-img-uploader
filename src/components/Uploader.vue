@@ -21,7 +21,7 @@
                  :file-list="fileList"
                  :on-success="uploadSuccess"
                  multiple
-                 action="https://api.vc.bilibili.com/api/v1/drawImage/upload">
+                 :action="uploadAction">
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">支持粘贴、拖动、点击文件上传</div>
         <wired-button elevation="3" @click.stop="clearFileList" class="clear-btn">清空</wired-button>
@@ -43,7 +43,7 @@
       <img src="../../public/icons/favicon.png" width="32"/>
       By
       <wired-link elevation="1" class="author" href="https://github.com/xlzy520"
-                  target="_blank">执笔看墨花开
+                  target="_blank">执笔看墨花开123466688
       </wired-link>
     </div>
   </div>
@@ -59,6 +59,7 @@
     name: 'Uploader',
     data() {
       return {
+        uploadAction: this.$uploadUrl,
         token: '1946f169%2C1573178598%2C19b54fa1',
         links: [
           {name: '图片链接', id: 'img', value: ''},

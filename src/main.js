@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import defaultConfig from './config'
 
 import 'wired-button';
 import 'wired-input';
@@ -36,6 +37,8 @@ Vue.prototype.$message = (text, type) => {
     'duration': 1000 // 显示时间
   })
 }
+
+Vue.prototype.$uploadUrl = defaultConfig.uploadUrl
 
 Vue.config.productionTip = false
 
