@@ -49,6 +49,7 @@ chrome.cookies.set({
 > 11. 增加筛选、分页、排序功能(新)
 > 12. 增加粘贴上传功能
 > 13. 增加删除功能
+> 14. 使用Vue3重构，增加本地开发热更新
 
 ### 获取SESSDATA
 登录哔哩哔哩→F12打开控制台→Application→Cookies→SESSDATA

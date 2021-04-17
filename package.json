@@ -1,18 +1,7 @@
 {
-  "name": "awesome-chrome-extension-boilerplate",
-  "version": "1.0.0",
-  "description": "an awesome boilerplate for chrome extension development!",
+  "name": "bilibili-img-uploader",
+  "version": "2.0.0",
   "private": true,
-  "author": "YuTengjing",
-  "license": "MIT",
-  "homepage": "https://github.com/tjx666/awesome-chrome-extension-boilerplate#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/tjx666/awesome-chrome-extension-boilerplate.git"
-  },
-  "bugs": {
-    "url": "https://github.com/tjx666/awesome-chrome-extension-boilerplate/issues"
-  },
   "scripts": {
     "start": "cross-env-shell NODE_ENV=development ts-node --files -P ./server/tsconfig.json ./server",
     "devtools": "yarn start --devtools",
@@ -24,22 +13,6 @@
     "lint-style": "stylelint --config .stylelintrc.json src/**/*.{css,less,scss}",
     "clean": "rimraf -rf ./extension ./dist ./*.zip ./*.crx",
     "reinstall": "rimraf -rf ./node_modules && yarn"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js}": [
-      "eslint -c .eslintrc.js"
-    ],
-    "*.{css,less,scss}": [
-      "stylelint --config .stylelintrc.json"
-    ],
-    "*.{ts,tsx,json,js,css,less,scss,md}": [
-      "prettier --write"
-    ]
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.13.0",
