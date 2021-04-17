@@ -231,7 +231,7 @@
       },
     },
     mounted() {
-      // this.getImgList()
+      this.getImgList()
     }
   }
 </script>

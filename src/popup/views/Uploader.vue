@@ -42,13 +42,6 @@
       <div class="cheat-title">哔哩哔哩参数表</div>
       <img src="/assets/img-help.jpg" width="">
     </div>
-    <div class="footer">
-      <img src="/icons/favicon.png" width="32"/>
-      By
-      <el-link elevation="1" class="author" href="https://github.com/xlzy520"
-                  target="_blank">执笔看墨花开
-      </el-link>
-    </div>
   </div>
 </template>
 
