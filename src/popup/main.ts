@@ -38,7 +38,7 @@ app.config.globalProperties.$uploadUrl = defaultConfig.uploadUrl;
 
 import {
   ElButton, ElMenu, ElMenuItem, ElInput, ElUpload, ElTable, ElTableColumn, ElImage, ElPagination, ElDatePicker, ElSelect,
-  ElOption, ElDropdown, ElDropdownItem, ElDropdownMenu, ElMessageBox
+  ElOption, ElDropdown, ElDropdownItem, ElDropdownMenu, ElMessageBox, ElIcon,
 } from 'element-plus';
 
 app.use(ElButton)
@@ -56,6 +56,7 @@ app.use(ElOption)
 app.use(ElDropdown)
 app.use(ElDropdownItem)
 app.use(ElDropdownMenu)
+app.use(ElIcon)
 
 app.config.globalProperties.$confirm = ElMessageBox.confirm;
 
