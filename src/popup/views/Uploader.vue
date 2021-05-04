@@ -119,6 +119,7 @@
               url: 'https://bilibili.com', name: 'SESSDATA'
             }, (data) => {
               console.log(data)
+              this.token = data
               if (data.value) {
                 this.token = data.value
                 this.saveToken()
