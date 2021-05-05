@@ -58,6 +58,9 @@
         Idb(db_img_config).then(img_db=>{
           jsonData.forEach(data=>{
             if (data.name && data.url) {
+              if (!data.id) {
+                data.id = uuid.generate()
+              }
               img_db.insert({
                 tableName: "img",
                 data,
