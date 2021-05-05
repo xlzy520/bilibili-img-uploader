@@ -1,21 +1,37 @@
-chrome.browserAction.onClicked.addListener(function (tab) {
-    var w = 1000;
-    var h = 600;
-    var left = Math.round((screen.width / 2) - (w / 2));
-    var top = Math.round((screen.height / 2) - (h / 2));
-    chrome.windows.create({
-        url: 'index.html',
-        width: w,
-        height: h,
-        focused: true,
-        'left': left,
-        'top': top,
-        type: 'popup'
-    });
-});
+console.log('This is background page!');
 
-chrome.cookies.set(
-  {
-    url: 'https://www.baidu.com', name: 'DEV_NOREDIRECT', value: "true"
-  }, (data) => console.log(data)
-);
+let currentId = 0
+
+chrome.browserAction.onClicked.addListener(function () {
+  const w = 1000;
+  const h = 600;
+  const left = Math.round((window.screen.width / 2) - (w / 2));
+  const top = Math.round((window.screen.height / 2) - (h / 2));
+  function createWindow(){
+    chrome.windows.create({
+      url: 'popup.html',
+      width: w,
+      height: h,
+      focused: true,
+      'left': left,
+      'top': top,
+      type: 'popup'
+    }, window => {
+      if (window) {
+        currentId = window.id
+      }
+    });
+  }
+  if (currentId) {
+    chrome.windows.update(currentId, {
+      focused: true
+    }, window => {
+      if (!window) {
+        createWindow()
+      }
+    })
+  }else {
+    createWindow()
+  }
+  
+});
