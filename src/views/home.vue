@@ -23,6 +23,7 @@
   import Uploader from '../components/Uploader.vue'
   import List from '../components/List.vue'
   import Idb from 'idb-js'
+  import uuid from "uuidjs";
   import db_img_config from '../db_img_config'
   import {parseTime} from "../utils";
 

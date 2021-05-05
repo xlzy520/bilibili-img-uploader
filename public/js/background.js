@@ -9,7 +9,7 @@ chrome.browserAction.onClicked.addListener(function () {
   const top = Math.round((window.screen.height / 2) - (h / 2));
   function createWindow(){
     chrome.windows.create({
-      url: 'popup.html',
+      url: 'index.html',
       width: w,
       height: h,
       focused: true,

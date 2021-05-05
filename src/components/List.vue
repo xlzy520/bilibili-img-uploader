@@ -119,9 +119,6 @@
       }
     },
     computed: {
-      // filterTableData() {
-      //   return this.tableData.filter(row=>!this.nameSearch || row.name.includes(this.nameSearch))
-      // }
     },
     methods: {
       parseTime(time){
@@ -172,7 +169,6 @@
         return result
       },
       getImgList(){
-        console.log(2);
         Idb(db_img_config).then(img_db=>{
           img_db.queryAll({
             tableName: "img",
