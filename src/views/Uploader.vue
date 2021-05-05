@@ -1,15 +1,14 @@
 <template>
   <div class="main" @paste="handleTPaste">
     <div class="header">
-      <wired-link elevation="1" href="https://github.com/xlzy520/bilibili-img-uploader/blob/master/README.md"
-                  target="_blank">如何获取SESSDATA？如何使用图片样式？</wired-link>
+<!--      <el-link elevation="1" href="https://github.com/xlzy520/bilibili-img-uploader/blob/master/README.md"-->
+<!--                  target="_blank">如何获取SESSDATA？如何使用图片样式？</el-link>-->
     </div>
     <div class="token">
       <label>SESSDATA：</label>
-      <wired-input name="SESSDATA" placeholder="你的哔哩哔哩SESSDATA" maxlength="32"
-                   :value="token" @input="token = $event.target.value"
-                   ref="nameInput" class="token-input"></wired-input>
-      <wired-button elevation="3" class="submit-btn" @click="saveToken">保存</wired-button>
+      <el-input placeholder="你的哔哩哔哩SESSDATA" v-model="token" class="token-input"></el-input>
+      <el-button type="success" class="ml-30" round @click="getBiliCookie">获取cookie</el-button>
+      <el-button type="primary" round class="submit-btn" @click="saveToken">保存</el-button>
     </div>
     <div class="upload">
       <el-upload drag
@@ -23,8 +22,8 @@
                  multiple
                  :action="uploadAction">
         <i class="el-icon-upload"></i>
-        <div class="el-upload__text">支持粘贴、拖动、点击文件上传</div>
-        <wired-button elevation="3" @click.stop="clearFileList" class="clear-btn">清空</wired-button>
+        <div class="el-upload__text">支持任意处粘贴文件上传</div>
+        <el-button elevation="3" @click.stop="clearFileList" class="clear-btn">清空</el-button>
       </el-upload>
     </div>
     <div class="result">
@@ -32,19 +31,16 @@
         <div class="link" v-for="link in links" :key="link.name">
           <label>{{link.name}}：</label>
           <div class="content">
-            <wired-input type="text" :id="link.id" :value="link.value" class="link-result"
-                         @input="link.value = $event.target.value"></wired-input>
-            <wired-button elevation="3" @click="copyToClipboard(link.value)">复制</wired-button>
+            <el-input v-model="link.value" :id="link.id" class="link-result"></el-input>
+            <el-button type="primary" class="ml-30" round @click="copyToClipboard(link.value)">复制</el-button>
+
           </div>
         </div>
       </div>
     </div>
-    <div class="footer">
-      <img src="../../public/icons/favicon.png" width="32"/>
-      By
-      <wired-link elevation="1" class="author" href="https://github.com/xlzy520"
-                  target="_blank">执笔看墨花开123466688
-      </wired-link>
+    <div class="cheat">
+      <div class="cheat-title">哔哩哔哩参数表</div>
+      <img src="/assets/img-help.jpg" width="">
     </div>
   </div>
 </template>
@@ -117,9 +113,22 @@
       copyToClipboard(input) {
         copyToClipboard(input)
       },
+      getBiliCookie(){
+        chrome.cookies.get(
+            {
+              url: 'https://bilibili.com', name: 'SESSDATA'
+            }, (data) => {
+              console.log(data)
+              if (data.value) {
+                this.token = data.value
+                this.saveToken()
+              }
+            }
+        );
+      },
       saveToken() {
-        if (this.token.length !== 32) {
-          this.$message('请输入32位SESSDATA', 'info')
+        if (!this.token) {
+          this.$message('请输入SESSDATA', 'info')
         } else {
           localStorage.setItem('SESSDATA', this.token)
           chrome.cookies.set(
@@ -135,6 +144,8 @@
       const token = localStorage.getItem('SESSDATA')
       if (token) {
         this.token = token
+      } else {
+        this.getBiliCookie()
       }
     },
   }
@@ -154,6 +165,10 @@
     width: 100px;
   }
 
+  .ml-30{
+    margin-left: 30px!important;
+  }
+
   .main {
     position: relative;
     display: flex;
@@ -163,11 +178,19 @@
     .header {
       word-break: break-all;
     }
+    .cheat-title{
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+      padding: 10px 0;
+      border-top: 1px solid #e4e4e4;
+      margin-top: 30px;
+    }
 
     .token {
       display: flex;
       align-items: center;
-      /*justify-content: space-between;*/
+      margin-left: 100px;
 
       .token-input {
         font-size: 15px;
@@ -185,19 +208,21 @@
       text-align: center;
       padding: 15px 0;
 
+      .el-upload__text{
+        color: #1296bd;
+      }
       .el-upload-dragger {
         height: 120px;
-
+        line-height: 120px;
         .el-icon-upload {
           margin: 20px 0 16px;
         }
       }
       .clear-btn{
-        position: relative;
-        left: 146px;
-        bottom: 27px;
-        background: bisque;
-
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        background: #ccc;
       }
     }
 
@@ -215,17 +240,6 @@
       }
     }
 
-    .footer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      color: gray;
-
-      .author {
-        color: rosybrown;
-      }
-    }
   }
 
 </style>

@@ -1,47 +1,65 @@
-import Vue from 'vue'
+
+import { createApp } from 'vue'
+
+import { ElMessage } from 'element-plus';
+import defaultConfig from './config.js'
+import { routes } from './router'
+import { createRouter, createWebHashHistory } from 'vue-router'
+
+// import lang from 'element-plus/lib/locale/lang/zh-cn'
+// import 'dayjs/locale/zh-cn'
+// import locale from 'element-plus/lib/locale'
+//
+// 设置语言
+// locale.use(lang)
+
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes,
+})
+
 import App from './App.vue'
-import defaultConfig from './config'
+import '@/styles/tailwind.css'
 
-import 'wired-button';
-import 'wired-input';
-import 'wired-link';
-import {
-  Input, Upload, Table, TableColumn, Tabs, TabPane, Image, Message, pagination, DatePicker, Select,
-  Option, Dropdown, DropdownItem, DropdownMenu, MessageBox, Dialog, Popover
-} from 'element-ui';
+const app = createApp(App)
 
-Vue.use(Input)
-Vue.use(Tabs)
-Vue.use(TabPane)
-Vue.use(Upload)
-Vue.use(Table)
-Vue.use(TableColumn)
-Vue.use(Image)
-Vue.use(pagination)
-Vue.use(DatePicker)
-Vue.use(Select)
-Vue.use(Option)
-Vue.use(Dropdown)
-Vue.use(DropdownItem)
-Vue.use(DropdownMenu)
-Vue.use(MessageBox.name, MessageBox)
-Vue.use(Dialog)
-Vue.use(Popover)
-
-Vue.prototype.$confirm = MessageBox.confirm;
-Vue.prototype.$message = (text, type) => {
-  Message({
+app.config.globalProperties.$message = (text, type = 'success' ) => {
+  ElMessage({
     'showClose': true, // 是否显示关闭按钮
     'message': text, // 消息内容
-    'type': type || 'success', // 消息类型
+    type, // 消息类型
     'duration': 1000 // 显示时间
   })
-}
+};
+app.config.globalProperties.$uploadUrl = defaultConfig.uploadUrl;
 
-Vue.prototype.$uploadUrl = defaultConfig.uploadUrl
+import {
+  ElButton, ElMenu, ElMenuItem, ElInput, ElUpload, ElTable, ElTableColumn, ElImage, ElPagination, ElDatePicker, ElSelect,
+  ElOption, ElDropdown, ElDropdownItem, ElDropdownMenu, ElMessageBox, ElIcon,
+} from 'element-plus';
 
-Vue.config.productionTip = false
+app.use(ElButton)
+app.use(ElMenu)
+app.use(ElMenuItem)
+app.use(ElInput)
+app.use(ElUpload)
+app.use(ElTable)
+app.use(ElTableColumn)
+app.use(ElImage)
+app.use(ElPagination)
+app.use(ElDatePicker)
+app.use(ElSelect)
+app.use(ElOption)
+app.use(ElDropdown)
+app.use(ElDropdownItem)
+app.use(ElDropdownMenu)
+app.use(ElIcon)
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+app.config.globalProperties.$confirm = ElMessageBox.confirm;
+
+app.use(router)
+
+app.mount('#app')
+
+

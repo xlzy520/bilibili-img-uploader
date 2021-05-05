@@ -1,41 +1,20 @@
 <template>
-  <div class="home">
-    <el-tabs v-model="activeTab" type="border-card" @tab-click="getAllImgList">
-      <el-tab-pane name="upload" label="上传">
-        <uploader></uploader>
-      </el-tab-pane>
-      <el-tab-pane name="list" label="图片列表">
-        <list ref="list"></list>
-      </el-tab-pane>
-      <el-tab-pane name="help" label="图片参数">
-        <img src="/assets/img-help.jpg" width="">
-      </el-tab-pane>
-    </el-tabs>
-    <div class="header-button">
-      <input type="file" id="importJson" @change="inputChange" hidden/>
-      <el-button @click="importJson" size="small">JSON导入</el-button>
-      <el-button @click="exportJson" size="small">JSON导出</el-button>
-    </div>
+  <div class="header-button">
+    <input type="file" id="importJson" @change="inputChange" hidden/>
+    <el-button @click="importJson" size="small">JSON导入</el-button>
+    <el-button @click="exportJson" size="small">JSON导出</el-button>
   </div>
 </template>
 
 <script>
-import {defineComponent} from 'vue';
-import Uploader from './Uploader.vue'
-import List from './List.vue'
 import Idb from 'idb-js'
+import uuid from "uuidjs";
 import db_img_config from '../db_img_config'
-import {parseTime} from "@/utils";
-
-export default defineComponent({
-  name: 'home',
-  components: {
-    Uploader,
-    List
-  },
+import {parseTime} from "../utils";
+export default {
+  name: 'ImportButtons',
   data() {
     return {
-      activeTab: 'upload',
       errNum: 0
     }
   },
@@ -52,6 +31,7 @@ export default defineComponent({
       reader.onload = (readerEvt) => {
         const fileString = readerEvt.target.result;
         const jsonData = JSON.parse(fileString)
+        console.log(jsonData);
         this.saveDataToIdb(jsonData)
       }
     },
@@ -59,6 +39,9 @@ export default defineComponent({
       Idb(db_img_config).then(img_db => {
         jsonData.forEach(data => {
           if (data.name && data.url) {
+            if (!data.id) {
+              data.id = uuid.generate()
+            }
             img_db.insert({
               tableName: "img",
               data,
@@ -101,9 +84,13 @@ export default defineComponent({
       console.log(input);
     }
   },
-})
+}
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+.header-button {
+  position: absolute;
+  right: 9px;
+  top: 7px;
+}
 </style>
