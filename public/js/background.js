@@ -2,13 +2,15 @@ console.log('This is background page!');
 
 let currentId = 0
 
-chrome.browserAction.onClicked.addListener(function () {
+let _browser = window.browser || chrome
+
+_browser.browserAction.onClicked.addListener(function () {
   const w = 1000;
   const h = 600;
   const left = Math.round((window.screen.width / 2) - (w / 2));
   const top = Math.round((window.screen.height / 2) - (h / 2));
   function createWindow(){
-    chrome.windows.create({
+    _browser.windows.create({
       url: 'index.html',
       width: w,
       height: h,
@@ -23,7 +25,7 @@ chrome.browserAction.onClicked.addListener(function () {
     });
   }
   if (currentId) {
-    chrome.windows.update(currentId, {
+    _browser.windows.update(currentId, {
       focused: true
     }, window => {
       if (!window) {
