@@ -65,17 +65,19 @@
               img_db.insert({
                 tableName: "img",
                 data,
-                success: () => console.log("添加成功")
+                success: () => {
+                  console.log("添加成功")
+                }
               });
             } else {
               this.errNum += 1
             }
           })
         }).finally(() => {
-          if (this.errNum) {
-            this.$message(this.errNum+'个数据上传失败:','error')
-            this.errNum = 0
-          }
+          this.$refs.list.getImgList()
+          const successNum = jsonData.length - this.errNum
+          this.$message(successNum+'个添加成功！'+ this.errNum+'个数据上传失败！', 'success', 2000)
+          this.errNum = 0
         })
       },
       exportJson() {
@@ -100,6 +102,7 @@
       importJson(){
         const input = document.querySelector('#importJson')
         input.click();
+
 
         console.log(input);
       }
