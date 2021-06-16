@@ -12,9 +12,6 @@
   },
   "permissions": [
     "cookies",
-    "tabs",
-    "storage",
-    "downloads",
     "downloads.shelf",
     "http://*/*",
     "https://*/*",
