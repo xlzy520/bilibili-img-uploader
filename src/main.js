@@ -29,12 +29,12 @@ Vue.use(Dialog)
 Vue.use(Popover)
 
 Vue.prototype.$confirm = MessageBox.confirm;
-Vue.prototype.$message = (text, type) => {
+Vue.prototype.$message = (message, type = 'success', duration = 1000) => {
   Message({
     'showClose': true, // 是否显示关闭按钮
-    'message': text, // 消息内容
-    'type': type || 'success', // 消息类型
-    'duration': 1000 // 显示时间
+    message, // 消息内容
+    type, // 消息类型
+    duration // 显示时间
   })
 }
 
