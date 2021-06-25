@@ -12,10 +12,8 @@
   },
   "permissions": [
     "cookies",
-    "downloads.shelf",
-    "http://*/*",
-    "https://*/*",
-    "<all_urls>"
+    "http://*.bilibili.com/*",
+    "https://*.bilibili.com/*"
   ],
   "background": {
     "scripts": ["js/background.js"],
