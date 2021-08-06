@@ -99,3 +99,18 @@ chrome.cookies.set({
 - 不区分大小写，相同的参数后面覆盖前面
 - 计算后的实际w*h不能大于原w*h，否则wh参数失效
 
+
+### 防盗链解决方案
+#### 全站图片使用
+在html的head标签中设置如下标志，那么全站资源引用都不会携带referrer
+
+```html
+<meta name="referrer" content="no-referrer">
+```
+### 新窗口打开
+主要设置rel="noreferrer"，使用window.open打开的话是会默认携带referrer的，第一次还是会403
+
+```html
+<a rel="noreferrer" target="_blank"></a>
+```
+
