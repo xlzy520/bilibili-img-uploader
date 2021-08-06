@@ -2,6 +2,7 @@
 哔哩哔哩图片上传插件，可以用于作为一个图床,国内速度快,多种图片格式选择。
 由于发布到Chrome插件市场需要收费，所以推荐直接下载解压之后用Chrome类浏览器手动导入安装即可。
 
+>等我有空，我就用[vitesse-webext](https://github.com/xlzy520/vitesse-webext)这个模板进行重构，样式和功能也重构一下，毕竟都快3年前的代码了，再引入一个远程的数据库，想用的可以用
 
 ### 下载
 [下载](https://github.com/xlzy520/bilibili-img-uploader/releases/latest)
