@@ -1,13 +1,9 @@
-# bilibili_img_uploader(Chrome)
-哔哩哔哩图床插件，转短链接，速度快,多种图片压缩格式选择。
+# B站图床、短链(Firefox、Chrome、Edge)
+哔哩哔哩图床插件，**转短链接**，速度快,多种图片压缩格式选择。
 基于[vitesse-webext](https://github.com/xlzy520/vitesse-webext) 重构
 
 ### 下载
 [下载](https://github.com/xlzy520/bilibili-img-uploader/releases/latest)
-
-### 在线安装
-- [Firefox](https://addons.mozilla.org/zh-CN/firefox/addon/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E5%9B%BE%E5%BA%8A/)
-- Chrome（未上架）
 
 ### 安装步骤
 1. 进入`拓展程序`,可以通过地址栏输入`chrome://extensions/`，也可以从 `更多工具`->`拓展程序`进入
