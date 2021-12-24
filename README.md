@@ -14,9 +14,6 @@
 1. 执行`npm i`, 执行`npm run dev`
 2. 上一步(安装步骤)将文件夹选择为`extension`文件夹
 
-### 使用方法
-https://github.com/xlzy520/blog/issues/22
-
 ### 截屏
 ![](https://i0.hdslb.com/bfs/album/c081e84238f29bbede300dff5d79112ef79d5985.png)
 ![](https://i0.hdslb.com/bfs/album/a841a115dff5f4141c2d44650ea44c2ac259ab64.png)
