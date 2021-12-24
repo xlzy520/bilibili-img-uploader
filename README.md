@@ -1,132 +1,79 @@
-# WebExtension Vite Starter
+# bilibili_img_uploader(Chrome)
+哔哩哔哩图床插件，转短链接，速度快,多种图片压缩格式选择。
+基于[vitesse-webext](https://github.com/xlzy520/vitesse-webext) 重构
 
-A [Vite](https://vitejs.dev/) powered WebExtension ([Chrome](https://developer.chrome.com/docs/extensions/reference/), [FireFox](https://addons.mozilla.org/en-US/developers/), etc.) starter template.
+### 下载
+[下载](https://github.com/xlzy520/bilibili-img-uploader/releases/latest)
 
-<p align="center">
-<sub>Popup</sub><br/>
-<img width="655" src="https://user-images.githubusercontent.com/11247099/126741643-813b3773-17ff-4281-9737-f319e00feddc.png"><br/>
-<sub>Options Page</sub><br/>
-<img width="655" src="https://user-images.githubusercontent.com/11247099/126741653-43125b62-6578-4452-83a7-bee19be2eaa2.png"><br/>
-<sub>Inject Vue App into the Content Script</sub><br/>
-<img src="https://user-images.githubusercontent.com/11247099/130695439-52418cf0-e186-4085-8e19-23fe808a274e.png">
-</p>
+### 在线安装
+- [Firefox](https://addons.mozilla.org/zh-CN/firefox/addon/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E5%9B%BE%E5%BA%8A/)
+- Chrome（未上架）
 
-## Features
+### 安装步骤
+1. 进入`拓展程序`,可以通过地址栏输入`chrome://extensions/`，也可以从 `更多工具`->`拓展程序`进入
+2. 右上角开启`开发者模式`
+3. 左侧点击 `加载已解压的拓展程序`,然后选择上面下载好的压缩包解压后的文件夹即可。
 
-- ⚡️ **Instant HMR** - use **Vite** on dev (no more refresh!)
-- 🥝 Vue 3 - Composition API, [`<script setup>` syntax](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md) and more!
-- 💬 Effortless communications - powered by [`webext-bridge`](https://github.com/antfu/webext-bridge) and [VueUse](https://github.com/antfu/vueuse) storage
-- 🍃 [Windi CSS](https://windicss.org/) - on-demand CSS utilities
-- 🦾 [TypeScript](https://www.typescriptlang.org/) - type safe
-- 📦 [Components auto importing](./src/components)
-- 🌟 [Icons](./src/components) - Access to icons from any iconset directly
-- 🖥 Content Script - Use Vue even in content script
-- 🌍 WebExtension - isomorphic extension for Chrome, Firefox, and others
-- 📃 Dynamic `manifest.json` with full type support
+### 本地开发
+1. 执行`npm i`, 执行`npm run dev`
+2. 上一步(安装步骤)将文件夹选择为`extension`文件夹
 
-## Pre-packed
+### 使用方法
+https://github.com/xlzy520/blog/issues/22
 
-### WebExtension Libraries
+### 截屏
+![](https://i0.hdslb.com/bfs/album/c081e84238f29bbede300dff5d79112ef79d5985.png)
+![](https://i0.hdslb.com/bfs/album/a841a115dff5f4141c2d44650ea44c2ac259ab64.png)
 
-- [`webextension-polyfill`](https://github.com/mozilla/webextension-polyfill) - WebExtension browser API Polyfill with types
-- [`webext-bridge`](https://github.com/antfu/webext-bridge) - effortlessly communication between contexts
-
-### Vite Plugins
-
-- [`unplugin-auto-import`](https://github.com/antfu/unplugin-auto-import) - Directly use `browser` and Vue Composition API without importing
-- [`unplugin-vue-components`](https://github.com/antfu/vite-plugin-components) - components auto import
-- [`unplugin-icons`](https://github.com/antfu/unplugin-icons) - icons as components
-  - [Iconify](https://iconify.design) - use icons from any icon sets [🔍Icônes](https://icones.netlify.app/)
-- [`vite-plugin-windicss`](https://github.com/antfu/vite-plugin-windicss) - WindiCSS support
-
-### Vue Plugins
-
-- [VueUse](https://github.com/antfu/vueuse) - collection of useful composition APIs
-
-### UI Frameworks
-
-- [Windi CSS](https://github.com/windicss/windicss) - next generation utility-first CSS framework
-
-### Coding Style
-
-- Use Composition API with [`<script setup>` SFC syntax](https://github.com/vuejs/rfcs/pull/227)
-- [ESLint](https://eslint.org/) with [@antfu/eslint-config](https://github.com/antfu/eslint-config), single quotes, no semi
-
-### Dev tools
-
-- [TypeScript](https://www.typescriptlang.org/)
-- [pnpm](https://pnpm.js.org/) - fast, disk space efficient package manager
-- [esno](https://github.com/antfu/esno) - TypeScript / ESNext node runtime powered by esbuild
-- [npm-run-all](https://github.com/mysticatea/npm-run-all) - Run multiple npm-scripts in parallel or sequential
-- [web-ext](https://github.com/mozilla/web-ext) - Streamlined experience for developing web extensions
-
-## Use the Template
-
-### GitHub Template
-
-[Create a repo from this template on GitHub](https://github.com/antfu/vitesse-webext/generate).
-
-### Clone to local
-
-If you prefer to do it manually with the cleaner git history
-
-> If you don't have pnpm installed, run: npm install -g pnpm
-
-```bash
-npx degit antfu/vitesse-webext my-webext
-cd my-webext
-pnpm i
+### 哔哩哔哩上传接口返回格式
+```json
+{
+    "code": 0,
+    "message": "success",
+    "data": {
+        "image_url": "http://i0.hdslb.com/bfs/album/104c4f1ae6b66d78a5952a191281ec7883dc5c5c.jpg",
+        "image_width": 818,
+        "image_height": 1000
+    }
+}
 ```
 
-## Usage
+### 图片样式
+| Type  | Url     | 
+| ------| --------|
+| 原图  | baseURL/1.jpg  |
+| 原分辨率，质量压缩  | baseURL/1.jpg@1e_1c.jpg  |
+| 规定宽，高度自适应，质量压缩  | baseURL/1.jpg@104w_1e_1c.jpg   |
+| 规定高，宽度自适应，质量压缩  | baseURL/1.jpg@104h_1e_1c.jpg   |
+| 规定高宽，质量压缩  | baseURL/1.jpg@104w_104h_1e_1c.jpg   |
+| 原分辨率，webp格式(占用最小)   | baseURL/1.jpg@104w_104h_1e_1c.webp |
+| 规定高度，webp格式(占用最小)   | baseURL/1.jpg@104w_104h_1e_1c.webp |
 
-### Folders
+格式：(图像原链接)@(\d+[whsepqoc]_?)*(\.(|webp|gif|png|jpg|jpeg))?$
+- w:[1, 9223372036854775807] (width，图像宽度)
+- h:[1, 9223372036854775807] (height，图像高度)
+- s:[1, 9223372036854775807] (作用未知)
+- e:[0,2] (resize，0:保留比例取其小，1:保留比例取其大，2:不保留原比例，不与c混用)
+- p:[1,1000] (默认100，放大倍数，不与c混用)
+- q:[1,100] (quality，默认75，图像质量)
+- o:[0,1] (作用未知)
+- c:[0,1] (clip，0:默认，1:裁剪)
+- webp,png,jpeg,gif(不加则保留原格式)
+- 不区分大小写，相同的参数后面覆盖前面
+- 计算后的实际w*h不能大于原w*h，否则wh参数失效
 
-- `src` - main source.
-  - `contentScript` - scripts and components to be injected as `content_script`
-  - `background` - scripts for background.
-  - `components` - auto-imported Vue components that shared in popup and options page.
-  - `styles` - styles shared in popup and options page
-  - `manifest.ts` - manifest for the extension.
-- `extension` - extension package root.
-  - `assets` - static assets.
-  - `dist` - built files, also serve stub entry for Vite on development.
-- `scripts` - development and bundling helper scripts.
 
-### Development
+### 防盗链解决方案
+#### 全站图片使用
+在html的head标签中设置如下标志，那么全站资源引用都不会携带referrer
 
-```bash
-pnpm dev
+```html
+<meta name="referrer" content="no-referrer">
+```
+### 新窗口打开
+主要设置rel="noreferrer"，使用window.open打开的话是会默认携带referrer的，第一次还是会403
+
+```html
+<a rel="noreferrer" target="_blank"></a>
 ```
 
-Then **load extension in browser with the `extension/` folder**.
-
-For Firefox developers, you can run the following command instead:
-
-```bash
-pnpm start:firefox
-```
-
-`web-ext` auto reload the extension when `extension/` files changed.
-
-> While Vite handles HMR automatically in the most of the case, [Extensions Reloader](https://chrome.google.com/webstore/detail/fimgfedafeadlieiabdeeaodndnlbhid) is still recommanded for cleaner hard reloading.
-
-### Build
-
-To build the extension, run
-
-```bash
-pnpm build
-```
-
-And then pack files under `extension`, you can upload `extension.crx` or `extension.xpi` to appropriate extension store.
-
-## Credits
-
-![](https://user-images.githubusercontent.com/11247099/127029137-6b5ad5db-76c4-4061-86ff-489911a8adfb.png)
-
-This template is originally made for the [volta.net](https://volta.net) browser extension.
-
-## Variations
-
-This is a variant of [Vitesse](https://github.com/antfu/vitesse), check out the [full variations list](https://github.com/antfu/vitesse#variations).
