@@ -2,7 +2,7 @@
   <main class="w-[600px] px-1 py-4 text-gray-700">
     <!--    <Logo />-->
     <div class="">
-      <tabs size="large" type="rounded" destroy-on-hide default-active-key="已上传图片">
+      <tabs size="large" type="rounded" destroy-on-hide default-active-key="图片上传">
         <template #extra>
           <input id="importJson" type="file" hidden @change="inputChange" />
           <Button type="outline" size="mini" @click="importJson">
