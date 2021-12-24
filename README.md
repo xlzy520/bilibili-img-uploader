@@ -5,6 +5,9 @@
 ### 下载
 [下载](https://github.com/xlzy520/bilibili-img-uploader/releases/latest)
 
+### 在线安装
+[Firefox](https://addons.mozilla.org/addon/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E5%9B%BE%E5%BA%8A/ )
+
 ### 安装步骤
 1. 进入`拓展程序`,可以通过地址栏输入`chrome://extensions/`，也可以从 `更多工具`->`拓展程序`进入
 2. 右上角开启`开发者模式`
