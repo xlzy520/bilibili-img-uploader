@@ -109,7 +109,7 @@ const getShortUrl = (link) => {
 }
 
 const toLogin = () => {
-  Message.warning('请先登录, 一秒后自动跳转登录页...')
+  Message.warning('未登录或登录已过期, 一秒后自动跳转登录页...')
   setTimeout(() => {
     window.open(loginUrl)
   }, 1000)
