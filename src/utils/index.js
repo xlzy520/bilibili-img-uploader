@@ -60,12 +60,14 @@ export const getPasteImg = (event) => {
       const file = image.getAsFile()
       const name = getFilename(event) || `image-${Date.now()}.png`
       file.uid = name
+      const url = URL.createObjectURL(file)
       return {
         name,
         file,
         raw: file,
         uid: name,
         status: 'ready',
+        url,
       }
     }
   }

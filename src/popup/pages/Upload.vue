@@ -24,7 +24,6 @@
         :with-credentials="true"
         :data="uploadData"
         name="file_up"
-        :response-url-key="resUrlKey"
         :file-list="fileList"
         @success="uploadSuccess"
       >
@@ -95,7 +94,10 @@ const types = ref(['图片链接', 'MarkDown', 'B站短链'])
 const links = ref([])
 
 const getResponseImgUrlHttps = (res) => {
-  return res.data.image_url.replace('http', 'https')
+  if (res) {
+    return res.data.image_url.replace('http', 'https')
+  }
+  return ''
 }
 
 const getShortUrl = (link) => {
@@ -104,6 +106,13 @@ const getShortUrl = (link) => {
       links.value.push(res)
     }
   })
+}
+
+const toLogin = () => {
+  Message.warning('请先登录, 一秒后自动跳转登录页...')
+  setTimeout(() => {
+    window.open(loginUrl)
+  }, 1000)
 }
 
 const uploadSuccess = (FileItem) => {
@@ -128,7 +137,12 @@ const uploadSuccess = (FileItem) => {
     })
   }
   else {
-    Message.error(`上传失败:${res.message}`)
+    if (res.message === '请先登录') {
+      toLogin()
+    }
+    else {
+      Message.error(`上传失败:${res.message}`)
+    }
   }
 }
 
@@ -138,13 +152,11 @@ const resUrlKey = (FileItem) => {
 
 const handleTPaste = (event) => {
   if (!token.value) {
-    Message.warning('请先登录, 一秒后自动跳转登录页...')
-    setTimeout(() => {
-      window.open(loginUrl)
-    }, 1000)
+    toLogin()
     return
   }
   const image = getPasteImg(event)
+  console.log(image)
   if (image) {
     fileList.value = [image]
     nextTick(() => {
