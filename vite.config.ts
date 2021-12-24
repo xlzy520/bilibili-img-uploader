@@ -1,6 +1,7 @@
 import { dirname, relative } from 'path'
 import { defineConfig, UserConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
+import VueJsx from '@vitejs/plugin-vue-jsx'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
@@ -21,6 +22,7 @@ export const sharedConfig: UserConfig = {
   },
   plugins: [
     Vue(),
+    VueJsx(),
 
     AutoImport({
       imports: [
@@ -48,7 +50,9 @@ export const sharedConfig: UserConfig = {
     }),
 
     // https://github.com/antfu/unplugin-icons
-    Icons(),
+    Icons({
+      autoInstall: true,
+    }),
 
     // rewrite assets to use relative path
     {
@@ -89,10 +93,11 @@ export default defineConfig(({ command }) => ({
     terserOptions: {
       mangle: false,
     },
+    brotliSize: false,
     rollupOptions: {
       input: {
         background: r('src/background/index.html'),
-        options: r('src/options/index.html'),
+        // options: r('src/options/index.html'),
         popup: r('src/popup/index.html'),
       },
     },

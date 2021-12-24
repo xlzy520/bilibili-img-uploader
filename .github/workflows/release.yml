@@ -1,0 +1,28 @@
+name: release
+
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions#on
+on:
+  push:
+    tags:
+      - "*"   #监听push tag的时候执行构建
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "checkout"
+        uses: actions/checkout@v1
+      - name: "build and zip"    # 先build，然后压缩dist为压缩包
+        run: npm install && npm run build && npm run pack:zip
+      - name: "release"
+        uses: xresloader/upload-to-github-release@master   # 使用第三方Action发布
+        env:
+          GITHUB_TOKEN: ${{ secrets.A }}
+        with:
+          file: "*.zip;"   # 要发布的匹配的文件
+          delete_file: ""
+          tags: true
+          draft: false
+          prerelease: false  # 是否是prerelease
+          overwrite: true
+          verbose: true
