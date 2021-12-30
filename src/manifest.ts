@@ -13,6 +13,7 @@ export async function getManifest() {
     name: pkg.displayName || pkg.name,
     version: pkg.version,
     description: pkg.description + (isDev ? '(开发版)' : ''),
+    homepage_url: 'https://github.com/xlzy520/bilibili-img-uploader',
     browser_action: {
       default_title: '哔哩哔哩图床',
       default_icon: './assets/favicon.png',
