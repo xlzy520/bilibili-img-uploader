@@ -1,29 +1,51 @@
 import { Message } from '@arco-design/web-vue'
 import { dayjs } from '@arco-design/web-vue/es/_utils/date'
 
-export const copyToClipboard = function(input) {
-  const el = document.createElement('textarea')
-  el.style.fontsize = '12pt'
-  el.style.border = '0'
-  el.style.padding = '0'
-  el.style.margin = '0'
-  el.style.position = 'absolute'
-  el.style.left = '-9999px'
-  el.setAttribute('readonly', '')
-  el.value = input
+export function copyToClipboard(input, { target = document.body } = {}) {
+  const element = document.createElement('textarea')
+  const previouslyFocusedElement = document.activeElement
 
-  document.body.appendChild(el)
-  el.select()
+  element.value = input
 
-  let success = false
+  // Prevent keyboard from showing on mobile
+  element.setAttribute('readonly', '')
+
+  element.style.contain = 'strict'
+  element.style.position = 'absolute'
+  element.style.left = '-9999px'
+  element.style.fontSize = '12pt' // Prevent zooming on iOS
+
+  const selection = document.getSelection()
+  const originalRange = selection.rangeCount > 0 && selection.getRangeAt(0)
+
+  target.append(element)
+  element.select()
+
+  // Explicit selection workaround for iOS
+  element.selectionStart = 0
+  element.selectionEnd = input.length
+
+  let isSuccess = false
   try {
-    success = document.execCommand('copy', true)
+    isSuccess = document.execCommand('copy')
   }
-  catch (err) {}
+  catch {}
 
-  document.body.removeChild(el)
-  Message.success('复制成功')
-  return success
+  element.remove()
+
+  if (originalRange) {
+    selection.removeAllRanges()
+    selection.addRange(originalRange)
+  }
+
+  // Get the focus back on the previously focused element, if any
+  if (previouslyFocusedElement) {
+    previouslyFocusedElement.focus()
+  }
+
+  Message.success(isSuccess ? '复制成功' : '复制失败')
+
+  return isSuccess
 }
 
 export const filterImages = (items) => {
@@ -76,9 +98,11 @@ export const getPasteImg = (event) => {
 export const fetchShortUrl = (link) => {
   const url = 'https://service-ijd4slqi-1253419200.gz.apigw.tencentcs.com/release/bsu?url='
   const encodeLink = encodeURIComponent(link)
+  console.log(encodeLink)
   return fetch(url + encodeLink).then((res) => {
     return res.json()
   }).then((res) => {
+    console.log(res)
     if (res.success) {
       const shortUrl = res.short_url
       copyToClipboard(shortUrl)
