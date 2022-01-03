@@ -39,7 +39,7 @@ export function copyToClipboard(input, { target = document.body } = {}) {
   }
 
   // Get the focus back on the previously focused element, if any
-  if (previouslyFocusedElement) {
+  if (previouslyFocusedElement && previouslyFocusedElement.focus) {
     previouslyFocusedElement.focus()
   }
 
