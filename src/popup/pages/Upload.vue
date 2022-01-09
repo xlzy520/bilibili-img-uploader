@@ -78,7 +78,7 @@
         href="https://github.com/xlzy520"
         target="_blank"
       >
-        执笔看墨花开
+        执笔看墨花开（GitHub）
       </Link>
     </div>
     <div class="footer">
