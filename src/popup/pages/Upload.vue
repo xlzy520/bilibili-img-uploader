@@ -3,6 +3,19 @@
     <input id="focus" autofocus focus class="use-focus">
     <div class="layout-slide p-2 switch-row token">
       <Tag color="#fb7299">
+        默认复制格式
+      </Tag>
+      <radio-group v-model="copyStyle" @change="changeCopyStyle">
+        <radio value="md">
+          Markdown
+        </radio>
+        <radio value="shortURL">
+          短链
+        </radio>
+      </radio-group>
+    </div>
+    <div class="layout-slide p-2 switch-row token">
+      <Tag color="#fb7299">
         当前SESSDATA
       </Tag>
       <Tag v-if="token" color="#00a1d6">
@@ -68,13 +81,23 @@
         执笔看墨花开
       </Link>
     </div>
+    <div class="footer">
+      B站
+      <Link
+        class="author"
+        href="https://space.bilibili.com/7560113"
+        target="_blank"
+      >
+        我的视频被举报下架了，B站请关注我
+      </Link>
+    </div>
   </div>
 </template>
 
 <script setup>
 import Idb from 'idb-js'
 import uuid from 'uuidjs'
-import { Button, Tag, Link, Upload, Message, TypographyParagraph } from '@arco-design/web-vue'
+import { Button, Tag, Link, Upload, Message, TypographyParagraph, RadioGroup, Radio } from '@arco-design/web-vue'
 import db_img_config from '../db_img_config'
 import { copyToClipboard, fetchShortUrl, getPasteImg } from '~/utils'
 
@@ -100,8 +123,14 @@ const getResponseImgUrlHttps = (res) => {
   return ''
 }
 
+const copyStyle = ref('shortURL')
+const changeCopyStyle = (val) => {
+  localStorage.setItem('copyStyle', val)
+}
+
 const getShortUrl = (link) => {
-  fetchShortUrl(link).then((res) => {
+  const copyShortURL = copyStyle.value === 'shortURL'
+  fetchShortUrl(link, copyShortURL).then((res) => {
     if (res) {
       links.value.push(res)
     }
@@ -119,8 +148,13 @@ const uploadSuccess = (FileItem) => {
   const res = FileItem.response
   if (res.message === 'success') {
     const link = getResponseImgUrlHttps(res)
-    links.value = [link, `![](${link})`]
+    const mdValue = `![](${link})`
+    links.value = [link, mdValue]
     getShortUrl(link)
+    const copyMD = copyStyle.value === 'md'
+    if (copyMD) {
+      copyToClipboard(mdValue)
+    }
     Idb(db_img_config).then((img_db) => {
       img_db.insert({
         tableName: 'img',
@@ -179,6 +213,10 @@ const getToken = () => {
 
 onMounted(() => {
   getToken()
+  const localCopyStyle = localStorage.getItem('copyStyle')
+  if (localCopyStyle) {
+    copyStyle.value = localCopyStyle
+  }
 })
 
 </script>

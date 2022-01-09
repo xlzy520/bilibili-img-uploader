@@ -95,7 +95,7 @@ export const getPasteImg = (event) => {
   }
 }
 
-export const fetchShortUrl = (link) => {
+export const fetchShortUrl = (link, copyShortURL = true) => {
   const url = 'https://service-ijd4slqi-1253419200.gz.apigw.tencentcs.com/release/bsu?url='
   const encodeLink = encodeURIComponent(link)
   console.log(encodeLink)
@@ -105,7 +105,9 @@ export const fetchShortUrl = (link) => {
     console.log(res)
     if (res.success) {
       const shortUrl = res.short_url
-      copyToClipboard(shortUrl)
+      if (copyShortURL) {
+        copyToClipboard(shortUrl)
+      }
       return shortUrl
     }
     else {
