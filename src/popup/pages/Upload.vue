@@ -150,10 +150,12 @@ const uploadSuccess = (FileItem) => {
     const link = getResponseImgUrlHttps(res)
     const mdValue = `![](${link})`
     links.value = [link, mdValue]
-    getShortUrl(link)
     const copyMD = copyStyle.value === 'md'
     if (copyMD) {
       copyToClipboard(mdValue)
+    }
+    else {
+      getShortUrl(link)
     }
     Idb(db_img_config).then((img_db) => {
       img_db.insert({
