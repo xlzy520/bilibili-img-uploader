@@ -80,15 +80,15 @@
       >
         执笔看墨花开（GitHub）
       </Link>
-    </div>
-    <div class="footer">
-      B站
+      <div class="mr-2">
+        |
+      </div>
       <Link
         class="author"
         href="https://space.bilibili.com/7560113"
         target="_blank"
       >
-        我的视频被举报下架了，B站请关注我
+        Bilibili
       </Link>
     </div>
   </div>
