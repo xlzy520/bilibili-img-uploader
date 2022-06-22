@@ -75,3 +75,9 @@
 <a rel="noreferrer" target="_blank"></a>
 ```
 
+## 感谢
+
+> 本项目得到以下项目的支持与帮助，在此表示衷心的感谢！
+
++ [antfu/vitesse-webext](https://github.com/antfu/vitesse-webext)
++ [<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="GitHub license" style="zoom:50%;" />](https://jb.gg/OpenSourceSupport)  (License Certificate for JetBrains All Products Pack)
