@@ -3,6 +3,8 @@
 基于[vitesse-webext](https://github.com/xlzy520/vitesse-webext) 重构
 
 ### 在线安装
+[Chrome](https://chrome.google.com/webstore/detail/b%E7%AB%99%E5%9B%BE%E5%BA%8A/domljbndjbjgpkhdbmfgmiclggdfojnd?hl=zh-CN)
+
 [Firefox](https://addons.mozilla.org/addon/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E5%9B%BE%E5%BA%8A/)
 
 [Edge](https://microsoftedge.microsoft.com/addons/detail/b%E7%AB%99%E5%9B%BE%E5%BA%8A/hfjlcmnnkgeppnaigbphhiibhnbnmbip)
