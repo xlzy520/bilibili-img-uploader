@@ -2,6 +2,13 @@
 哔哩哔哩图床插件，**转短链接**，速度快,多种图片压缩格式选择，自动读取Bilibili的Cookie，不再需要手动输入。
 基于[vitesse-webext](https://github.com/xlzy520/vitesse-webext) 重构
 
+## 重要提示（请看）
+由于2022年7月28日，B站接口更新，导致之前的功能不可用，下面是新的操作方式
+1. 先打开插件，粘贴图片，会自动打开一个新的Tab
+2. 这时候会提示B站插件装载完成，此时可以在这个Tab页，打开插件继续上传图片
+
+
+
 ### 在线安装
 [Chrome](https://chrome.google.com/webstore/detail/b%E7%AB%99%E5%9B%BE%E5%BA%8A/domljbndjbjgpkhdbmfgmiclggdfojnd?hl=zh-CN)
 
