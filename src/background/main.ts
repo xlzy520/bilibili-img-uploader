@@ -2,6 +2,8 @@
 // import { Tabs } from 'webextension-polyfill'
 
 // only on dev mode
+import Browser from 'webextension-polyfill'
+
 if (import.meta.hot) {
   // @ts-expect-error for background HMR
   import('/@vite/client')
@@ -12,6 +14,16 @@ if (import.meta.hot) {
 browser.runtime.onInstalled.addListener((): void => {
   // eslint-disable-next-line no-console
   console.log('Extension installed')
+})
+browser.runtime.onMessage.addListener((request) => {
+  console.log(request)
+  const { type, data } = request
+  if (type === 'upload') {
+    fetch('https://api.vc.bilibili.com/api/v1/drawImage/upload', {
+      method: 'POST',
+      body: data,
+    })
+  }
 })
 
 console.log('This is background page!')

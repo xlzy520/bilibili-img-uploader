@@ -20,7 +20,12 @@ async function stubIndexHtml() {
     data = data
       .replace('"./main.ts"', `"http://localhost:${port}/${view}/main.ts"`)
       .replace('<div id="app"></div>', '<div id="app">Vite server did not start</div>')
-    await fs.writeFile(r(`extension/dist/${view}/index.html`), data, 'utf-8')
+    if (view === 'background') {
+      // await fs.writeFile(r(`extension/dist/${view}/index.html`), data, 'utf-8')
+    }
+    else {
+      await fs.writeFile(r(`extension/dist/${view}/index.html`), data, 'utf-8')
+    }
     log('PRE', `stub ${view}`)
   }
 }

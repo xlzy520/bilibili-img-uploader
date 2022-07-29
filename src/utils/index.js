@@ -1,5 +1,6 @@
 import { Message } from '@arco-design/web-vue'
 import { dayjs } from '@arco-design/web-vue/es/_utils/date'
+import Browser from 'webextension-polyfill'
 
 export function copyToClipboard(input, { target = document.body } = {}) {
   const element = document.createElement('textarea')
@@ -113,5 +114,74 @@ export const fetchShortUrl = (link, copyShortURL = true) => {
     else {
       copyToClipboard(link)
     }
+  })
+}
+
+export function getCurrentTab() {
+  return new Promise((resolve, reject) => {
+    browser.tabs
+      .query({
+        active: true,
+        currentWindow: true,
+      })
+      .then((tabs) => {
+        const tab = tabs[0]
+        if (tab) resolve(tab)
+        else reject(new Error('tab not found'))
+      })
+  })
+}
+
+export const sendMessage = (message) => {
+  getCurrentTab().then((tab) => {
+    const { id } = tab
+    if (id) {
+      browser.tabs.sendMessage(id, message)
+    }
+  })
+}
+
+export const sendMessageToBilibili = (message) => {
+  browser.tabs
+    .query({
+      url: 'https://www.bilibili.com/*',
+    })
+    .then((tabs) => {
+      console.log(tabs)
+      const tab = tabs[0]
+      if (tab) {
+        Browser.tabs.update(tab.id, {
+          active: true,
+        }).then((res) => {
+          browser.tabs.sendMessage(tab.id, message)
+        })
+      }
+      else {
+        Browser.tabs.create({
+          active: true,
+          url: 'https://www.bilibili.com/?needToast=true',
+        }).then((res) => {
+          browser.tabs.sendMessage(res.id, message)
+        })
+      }
+    })
+}
+
+export function ajax(URL, { body = {}, method = 'GET' } = {}) {
+  return new Promise((resolve, reject) => {
+    const req = new XMLHttpRequest()
+    req.open(method, URL, true)
+    req.onload = function() {
+      if (req.status === 200) {
+        resolve(req.responseText)
+      }
+      else {
+        reject(new Error(req.statusText))
+      }
+    }
+    req.onerror = function() {
+      reject(new Error(req.statusText))
+    }
+    req.send(body)
   })
 }
