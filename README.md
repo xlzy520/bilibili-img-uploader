@@ -3,17 +3,15 @@
 基于[vitesse-webext](https://github.com/xlzy520/vitesse-webext) 重构
 
 ## 重要提示（请看）
-已找到新的处理方式，可以与之前的操作方式保持一致。**三个平台都已经提交审核，正在审核中...**
+已找到新的处理方式，可以与之前的操作方式保持一致。**Chrome、Firefox已经提交审核，正在审核中...**
 
 原理：利用`declarativeNetRequest`移除或者修改`origin`请求头
 
 
 ### 在线安装
-[Chrome](https://chrome.google.com/webstore/detail/b%E7%AB%99%E5%9B%BE%E5%BA%8A/domljbndjbjgpkhdbmfgmiclggdfojnd?hl=zh-CN)
+[Chrome、Edge](https://chrome.google.com/webstore/detail/b%E7%AB%99%E5%9B%BE%E5%BA%8A/domljbndjbjgpkhdbmfgmiclggdfojnd?hl=zh-CN)
 
 [Firefox](https://addons.mozilla.org/addon/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E5%9B%BE%E5%BA%8A/)
-
-[Edge](https://microsoftedge.microsoft.com/addons/detail/b%E7%AB%99%E5%9B%BE%E5%BA%8A/hfjlcmnnkgeppnaigbphhiibhnbnmbip)
 
 ### 本地安装
 [下载](https://github.com/xlzy520/bilibili-img-uploader/releases/latest)
