@@ -1,9 +1,10 @@
 # B站图床、短链(Firefox、Chrome、Edge)
-哔哩哔哩图床插件，**转短链接**，速度快,多种图片压缩格式选择，自动读取Bilibili的Cookie，不再需要手动输入。
+哔哩哔哩图床插件，速度快,多种图片压缩格式选择，自动读取Bilibili的Cookie，不再需要手动输入。
 基于[vitesse-webext](https://github.com/xlzy520/vitesse-webext) 重构
 
 ## 重要提示（请看）
-已找到新的处理方式，可以与之前的操作方式保持一致(**开发中...**)。
+已找到新的处理方式，可以与之前的操作方式保持一致。
+
 原理：利用`declarativeNetRequest`移除或者修改`origin`请求头
 
 
