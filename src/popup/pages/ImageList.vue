@@ -36,9 +36,9 @@
           <TableColumn title="操作">
             <template #cell="{ record }">
               <div>
-                <Button type="outline" size="mini" @click="getShortUrl(record.url)">
-                  短链
-                </Button>
+                <!--                <Button type="outline" size="mini" @click="getShortUrl(record.url)">-->
+                <!--                  短链-->
+                <!--                </Button>-->
                 <Button class="ml-2" type="primary" status="success" size="mini" @click="copy(record)">
                   原图
                 </Button>
@@ -62,7 +62,7 @@ import Idb from 'idb-js'
 import { Table, TableColumn, Tag, Image, Button, RangePicker, Spin, Popconfirm, Message } from '@arco-design/web-vue'
 import { IconDelete } from '@arco-design/web-vue/es/icon'
 import db_img_config from '../db_img_config'
-import { copyToClipboard, fetchShortUrl, formatDate } from '~/utils'
+import { copyToClipboard, formatDate } from '~/utils'
 
 const props = defineProps({
   refreshKey: Number,
@@ -74,12 +74,6 @@ const paginationPros = {
 }
 
 const loading = ref(false)
-const getShortUrl = (link) => {
-  loading.value = true
-  fetchShortUrl(link).finally(() => {
-    loading.value = false
-  })
-}
 
 const data = ref([])
 const filterData = ref([])

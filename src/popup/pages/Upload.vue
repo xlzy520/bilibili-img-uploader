@@ -9,9 +9,9 @@
         <radio value="md">
           Markdown
         </radio>
-        <radio value="shortURL">
-          短链
-        </radio>
+        <!--        <radio value="shortURL">-->
+        <!--          短链-->
+        <!--        </radio>-->
       </radio-group>
     </div>
     <div class="layout-slide p-2 switch-row token">
@@ -99,7 +99,7 @@ import Idb from 'idb-js'
 import uuid from 'uuidjs'
 import { Button, Tag, Link, Upload, Message, TypographyParagraph, RadioGroup, Radio } from '@arco-design/web-vue'
 import db_img_config from '../db_img_config'
-import { copyToClipboard, fetchShortUrl, getPasteImg } from '~/utils'
+import { copyToClipboard, getPasteImg } from '~/utils'
 
 const homePage = 'https://bilibili.com'
 const loginUrl = 'https://passport.bilibili.com/login'
@@ -123,18 +123,9 @@ const getResponseImgUrlHttps = (res) => {
   return ''
 }
 
-const copyStyle = ref('shortURL')
+const copyStyle = ref('md')
 const changeCopyStyle = (val) => {
   localStorage.setItem('copyStyle', val)
-}
-
-const getShortUrl = (link) => {
-  const copyShortURL = copyStyle.value === 'shortURL'
-  fetchShortUrl(link, copyShortURL).then((res) => {
-    if (res) {
-      links.value.push(res)
-    }
-  })
 }
 
 const toLogin = () => {
@@ -153,9 +144,6 @@ const uploadSuccess = (FileItem) => {
     const copyMD = copyStyle.value === 'md'
     if (copyMD) {
       copyToClipboard(mdValue)
-    }
-    else {
-      getShortUrl(link)
     }
     Idb(db_img_config).then((img_db) => {
       img_db.insert({
@@ -227,10 +215,6 @@ const getCrsfToken = () => {
 onMounted(() => {
   getToken()
   getCrsfToken()
-  const localCopyStyle = localStorage.getItem('copyStyle')
-  if (localCopyStyle) {
-    copyStyle.value = localCopyStyle
-  }
 })
 
 </script>
