@@ -4,11 +4,7 @@
 
 ## 重要提示（请看）
 已找到新的处理方式，可以与之前的操作方式保持一致(**开发中...**)。
-
-原理：在`service_worker`发起请求，利用`declarativeNetRequest`移除或者修改`origin`请求头
-
-**上一个版本尝试过，没有成功，是因为我是在`popup`上面发起请求的。**
-
+原理：利用`declarativeNetRequest`移除或者修改`origin`请求头
 
 
 ### 在线安装
