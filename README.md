@@ -3,7 +3,7 @@
 基于[vitesse-webext](https://github.com/xlzy520/vitesse-webext) 重构
 
 ## 重要提示（请看）
-已找到新的处理方式，可以与之前的操作方式保持一致。
+已找到新的处理方式，可以与之前的操作方式保持一致。**三个平台都已经提交审核，正在审核中...**
 
 原理：利用`declarativeNetRequest`移除或者修改`origin`请求头
 
