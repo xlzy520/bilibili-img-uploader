@@ -146,7 +146,7 @@ const toLogin = () => {
 
 const uploadSuccess = (FileItem) => {
   const res = FileItem.response
-  if (res.message === 'success') {
+  if (res.data?.image_url) {
     const link = getResponseImgUrlHttps(res)
     const mdValue = `![](${link})`
     links.value = [link, mdValue]
@@ -212,9 +212,21 @@ const getToken = () => {
     }
   })
 }
+const getCrsfToken = () => {
+  browser.cookies.get({
+    name: 'bili_jct',
+    url: homePage,
+  }).then((res) => {
+    console.log(res)
+    if (res.value) {
+      uploadData.csrf_token = res.value
+    }
+  })
+}
 
 onMounted(() => {
   getToken()
+  getCrsfToken()
   const localCopyStyle = localStorage.getItem('copyStyle')
   if (localCopyStyle) {
     copyStyle.value = localCopyStyle

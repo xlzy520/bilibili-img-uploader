@@ -9,12 +9,12 @@ export async function getManifest() {
   // update this file to update this manifest.json
   // can also be conditional based on your need
   const manifest: Manifest.WebExtensionManifest = {
-    manifest_version: 2,
+    manifest_version: 3,
     name: pkg.displayName || pkg.name,
     version: pkg.version,
     description: pkg.description + (isDev ? '(开发版)' : ''),
     homepage_url: 'https://github.com/xlzy520/bilibili-img-uploader',
-    browser_action: {
+    action: {
       default_title: '哔哩哔哩图床',
       default_icon: './assets/favicon.png',
       default_popup: './dist/popup/index.html',
@@ -24,10 +24,6 @@ export async function getManifest() {
     //   open_in_tab: true,
     //   chrome_style: false,
     // },
-    background: {
-      page: './dist/background/index.html',
-      persistent: false,
-    },
     icons: {
       16: './assets/favicon@16.png',
       48: './assets/favicon@48.png',
@@ -36,12 +32,21 @@ export async function getManifest() {
     },
     permissions: [
       'cookies',
-      'http://*.bilibili.com/*',
+      'declarativeNetRequest',
+    ],
+    declarative_net_request: {
+      rule_resources: [
+        {
+          id: 'ruleset_1',
+          enabled: true,
+          path: './rules.json',
+        },
+      ],
+    },
+    host_permissions: [
       'https://*.bilibili.com/*',
     ],
   }
-
-  delete manifest.content_scripts
 
   if (isDev) {
     // for content script, as browsers will cache them for each reload,
@@ -50,7 +55,9 @@ export async function getManifest() {
     manifest.permissions?.push('webNavigation')
 
     // this is required on dev for Vite script to load
-    manifest.content_security_policy = `script-src \'self\' http://localhost:${port}; object-src \'self\'`
+    manifest.content_security_policy = {
+      extension_pages: 'script-src \'self\'; object-src \'self\'',
+    }
   }
 
   return manifest
