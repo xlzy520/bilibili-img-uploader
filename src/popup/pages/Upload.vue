@@ -29,7 +29,7 @@
     <div class="p-2 upload">
       <Upload
         ref="upload"
-        :auto-upload="false"
+        :action="uploadUrl"
         draggable
         list-type="picture"
         accept="image/*"
@@ -38,7 +38,7 @@
         :data="uploadData"
         name="file_up"
         :file-list="fileList"
-        @change="onChange"
+        @success="uploadSuccess"
       >
         <template #upload-button>
           <div class="upload-main">
@@ -98,43 +98,23 @@
 import Idb from 'idb-js'
 import uuid from 'uuidjs'
 import { Button, Tag, Link, Upload, Message, TypographyParagraph, RadioGroup, Radio } from '@arco-design/web-vue'
-import Browser from 'webextension-polyfill'
 import db_img_config from '../db_img_config'
-import { copyToClipboard, fetchShortUrl, getPasteImg, sendMessage, sendMessageToBilibili } from '~/utils'
+import { copyToClipboard, fetchShortUrl, getPasteImg } from '~/utils'
 
 const homePage = 'https://bilibili.com'
 const loginUrl = 'https://passport.bilibili.com/login'
 const uploadUrl = 'https://api.vc.bilibili.com/api/v1/drawImage/upload'
 const token = ref('')
-const headers = ref({
-  origin: 'https://bilibili.com/',
-})
-const uploadData = reactive({
+const uploadData = {
   category: 'daily',
-  biz: 'new_dyn',
-  csrf_token: '',
-})
+  biz: 'draw',
+}
 const fileList = ref([])
 const upload = ref(null)
 
 const types = ref(['图片链接', 'MarkDown', 'B站短链'])
 
 const links = ref([])
-
-const onChange = (fileList, file) => {
-  console.log(1231321, fileList.value, toRaw(file))
-  if (file.status === 'done') {
-    const url = URL.createObjectURL(file.file)
-    sendMessageToBilibili({
-      type: 'upload',
-      data: {
-        url,
-        fileInfo: file,
-        config: uploadData,
-      },
-    })
-  }
-}
 
 const getResponseImgUrlHttps = (res) => {
   if (res) {
@@ -164,10 +144,9 @@ const toLogin = () => {
   }, 1000)
 }
 
-const uploadSuccess = (res) => {
-  if (res.data?.image_url) {
-    const fileItem = fileList.value.find(value => value.uid === res.name)
-    fileItem.status = 'done'
+const uploadSuccess = (FileItem) => {
+  const res = FileItem.response
+  if (res.message === 'success') {
     const link = getResponseImgUrlHttps(res)
     const mdValue = `![](${link})`
     links.value = [link, mdValue]
@@ -183,7 +162,7 @@ const uploadSuccess = (res) => {
         tableName: 'img',
         data: {
           id: uuid.generate(),
-          name: res.name,
+          name: FileItem.name,
           url: link,
           width: res.data.image_width,
           height: res.data.image_height,
@@ -202,20 +181,6 @@ const uploadSuccess = (res) => {
     }
   }
 }
-
-Browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  const { type, data } = request
-  console.log(data)
-  switch (type) {
-    case 'uploadSuccess':
-      uploadSuccess(data)
-      break
-    case 'uploadError':
-      break
-    default:
-      break
-  }
-})
 
 const resUrlKey = (FileItem) => {
   return getResponseImgUrlHttps(FileItem.response)
@@ -247,21 +212,9 @@ const getToken = () => {
     }
   })
 }
-const getCrsfToken = () => {
-  browser.cookies.get({
-    name: 'bili_jct',
-    url: homePage,
-  }).then((res) => {
-    console.log(res)
-    if (res.value) {
-      uploadData.csrf_token = res.value
-    }
-  })
-}
 
 onMounted(() => {
   getToken()
-  getCrsfToken()
   const localCopyStyle = localStorage.getItem('copyStyle')
   if (localCopyStyle) {
     copyStyle.value = localCopyStyle
