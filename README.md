@@ -3,12 +3,11 @@
 基于[vitesse-webext](https://github.com/xlzy520/vitesse-webext) 重构
 
 ## 重要提示（请看）
-由于2022年7月28日，B站接口更新，导致之前的功能不可用，下面是新的操作方式
-1. 先打开插件，粘贴图片，会自动打开一个新的Tab
-2. 这时候会提示B站插件装载完成，此时可以在这个Tab页，打开插件继续上传图片
-视频如下
+已找到新的处理方式，可以与之前的操作方式保持一致(**开发中...**)。
 
-https://user-images.githubusercontent.com/28336270/181740177-c18e9944-ca0c-467a-b622-601462192b5e.mov
+原理：在`service_worker`发起请求，利用`declarativeNetRequest`移除或者修改`origin`请求头
+
+**上一个版本尝试过，没有成功，是因为我是在`popup`上面发起请求的。**
 
 
 
