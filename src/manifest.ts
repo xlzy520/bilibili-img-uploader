@@ -36,6 +36,8 @@ export async function getManifest() {
     },
     permissions: [
       'cookies',
+      'webRequest',
+      'webRequestBlocking',
       'http://*.bilibili.com/*',
       'https://*.bilibili.com/*',
     ],

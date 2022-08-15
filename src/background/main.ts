@@ -9,6 +9,15 @@ if (import.meta.hot) {
   import('./contentScriptHMR')
 }
 
+browser.webRequest.onBeforeSendHeaders.addListener((details) => {
+  console.log(details)
+  const originHeaderIndex = details.requestHeaders.findIndex(header => header.name === 'Origin')
+  if (originHeaderIndex > -1) {
+    details.requestHeaders[originHeaderIndex].value = 'https://www.bilibili.com'
+  }
+  return { requestHeaders: details.requestHeaders }
+}, { urls: ['https://*.bilibili.com/*'] }, ['requestHeaders', 'blocking'])
+
 browser.runtime.onInstalled.addListener((): void => {
   // eslint-disable-next-line no-console
   console.log('Extension installed')
