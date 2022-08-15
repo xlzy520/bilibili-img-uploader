@@ -13,7 +13,7 @@
       ]
     },
     "condition" : {
-      "resourceTypes" : ["main_frame", "sub_frame","image"]
+      "resourceTypes" : ["xmlhttprequest"]
     }
   }
 ]

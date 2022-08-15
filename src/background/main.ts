@@ -14,6 +14,31 @@ browser.runtime.onInstalled.addListener((): void => {
   console.log('Extension installed')
 })
 
+// Browser.declarativeNetRequest.updateSessionRules({
+//   removeRuleIds: [
+//     123,
+//   ],
+//   addRules: [
+//     {
+//       id: 123,
+//       priority: 1,
+//       action: {
+//         type: 'modifyHeaders',
+//         requestHeaders: [
+//           {
+//             header: 'origin',
+//             operation: 'remove',
+//           },
+//         ],
+//       },
+//       condition: {
+//         resourceTypes: ['xmlhttprequest'],
+//       },
+//
+//     },
+//   ],
+// })
+
 console.log('This is background page!')
 
 // const previousTabId = 0
