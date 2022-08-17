@@ -16,7 +16,7 @@ browser.webRequest.onBeforeSendHeaders.addListener((details) => {
     details.requestHeaders[originHeaderIndex].value = 'https://www.bilibili.com'
   }
   return { requestHeaders: details.requestHeaders }
-}, { urls: ['https://*.bilibili.com/*'] }, ['requestHeaders', 'blocking'])
+}, { urls: ['https://api.vc.bilibili.com/api/v1/drawImage/upload'] }, ['requestHeaders', 'blocking'])
 
 browser.runtime.onInstalled.addListener((): void => {
   // eslint-disable-next-line no-console
