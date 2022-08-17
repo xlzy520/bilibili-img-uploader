@@ -8,12 +8,14 @@
       "requestHeaders": [
         {
           "header": "origin",
-          "operation": "remove"
+          "operation": "set",
+          "value": "https://www.bilibili.com"
         }
       ]
     },
     "condition" : {
-      "resourceTypes" : ["xmlhttprequest"]
+      "resourceTypes" : ["xmlhttprequest"],
+      "urlFilter": "api/v1/drawImage/upload"
     }
   }
 ]
