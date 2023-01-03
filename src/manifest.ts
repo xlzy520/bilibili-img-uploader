@@ -19,11 +19,9 @@ export async function getManifest() {
       default_icon: './assets/favicon.png',
       default_popup: './dist/popup/index.html',
     },
-    // options_ui: {
-    //   page: './dist/options/index.html',
-    //   open_in_tab: true,
-    //   chrome_style: false,
-    // },
+    background: {
+      service_worker: './dist/background/index.mjs',
+    },
     icons: {
       16: './assets/favicon@16.png',
       48: './assets/favicon@48.png',
@@ -39,25 +37,22 @@ export async function getManifest() {
         {
           id: 'ruleset_1',
           enabled: true,
-          path: './rules.json',
+          path: './assets/rules.json',
         },
       ],
     },
     host_permissions: [
       'https://*.bilibili.com/*',
     ],
+    content_security_policy: {
+      extension_pages: isDev // this is required on dev for Vite script to load
+        ? `script-src 'self' http://localhost:${port}; object-src 'self' http://localhost:${port}`
+        : 'script-src \'self\'; object-src \'self\'',
+    },
   }
 
   if (isDev) {
-    // for content script, as browsers will cache them for each reload,
-    // we use a background script to always inject the latest version
-    // see src/background/contentScriptHMR.ts
     manifest.permissions?.push('webNavigation')
-
-    // this is required on dev for Vite script to load
-    manifest.content_security_policy = {
-      extension_pages: 'script-src \'self\'; object-src \'self\'',
-    }
   }
 
   return manifest

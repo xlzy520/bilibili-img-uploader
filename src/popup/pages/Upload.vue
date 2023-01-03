@@ -1,105 +1,9 @@
-<template>
-  <div class="upload-page border-top-line" @paste="handleTPaste">
-    <input id="focus" autofocus focus class="use-focus">
-    <div class="layout-slide p-2 switch-row token">
-      <Tag color="#fb7299">
-        默认复制格式
-      </Tag>
-      <radio-group v-model="copyStyle" @change="changeCopyStyle">
-        <radio value="md">
-          Markdown
-        </radio>
-        <!--        <radio value="shortURL">-->
-        <!--          短链-->
-        <!--        </radio>-->
-      </radio-group>
-    </div>
-    <div class="layout-slide p-2 switch-row token">
-      <Tag color="#fb7299">
-        当前SESSDATA
-      </Tag>
-      <Tag v-if="token" color="#00a1d6">
-        {{ token.substr(0, 8).padEnd(16,'*') }}
-      </Tag>
-
-      <Link v-else :href="loginUrl" class="">
-        您当前的浏览器未登录Bilibili，点我登录
-      </Link>
-    </div>
-    <div class="p-2 upload">
-      <Upload
-        ref="upload"
-        :action="uploadUrl"
-        draggable
-        list-type="picture"
-        accept="image/*"
-        multiple
-        :with-credentials="true"
-        :data="uploadData"
-        name="file_up"
-        :file-list="fileList"
-        @success="uploadSuccess"
-      >
-        <template #upload-button>
-          <div class="upload-main">
-            <span style="color: #3370FF"> 支持粘贴、拖动、点击文件上传</span>
-          </div>
-        </template>
-      </Upload>
-    </div>
-    <div class="px-2 result pb-4">
-      <div v-for="(link, index) in links" :key="link" class="layout-slide mb-2">
-        <div class="layout-items-center flex-grow">
-          <Tag color="#00a1d6" class="mr-2 flex-0-auto w-[80px]">
-            {{ types[index] }}
-          </Tag>
-          <TypographyParagraph
-            class="link break-all flex-grow"
-            underline
-            :ellipsis="{
-              showTooltip: true,
-            }"
-          >
-            {{ link }}
-          </TypographyParagraph>
-        </div>
-
-        <div class="ml-4 flex-0-auto">
-          <Button type="outline" size="small" @click="copyToClipboard(link)">
-            复制
-          </Button>
-        </div>
-      </div>
-    </div>
-    <div class="footer">
-      By
-      <Link
-        class="author"
-        href="https://github.com/xlzy520"
-        target="_blank"
-      >
-        执笔看墨花开（GitHub）
-      </Link>
-      <div class="mr-2">
-        |
-      </div>
-      <Link
-        class="author"
-        href="https://space.bilibili.com/7560113"
-        target="_blank"
-      >
-        Bilibili
-      </Link>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import Idb from 'idb-js'
 import uuid from 'uuidjs'
-import { Button, Tag, Link, Upload, Message, TypographyParagraph, RadioGroup, Radio } from '@arco-design/web-vue'
+import { Button, Link, Message, Radio, RadioGroup, Tag, TypographyParagraph, Upload } from '@arco-design/web-vue'
 import db_img_config from '../db_img_config'
-import { copyToClipboard, getPasteImg } from '~/utils'
+import { copyText, getPasteImg } from '~/utils'
 
 const homePage = 'https://bilibili.com'
 const loginUrl = 'https://passport.bilibili.com/login'
@@ -143,7 +47,7 @@ const uploadSuccess = (FileItem) => {
     links.value = [link, mdValue]
     const copyMD = copyStyle.value === 'md'
     if (copyMD) {
-      copyToClipboard(mdValue)
+      copyText(mdValue)
     }
     Idb(db_img_config).then((img_db) => {
       img_db.insert({
@@ -216,8 +120,104 @@ onMounted(() => {
   getToken()
   getCrsfToken()
 })
-
 </script>
+
+<template>
+  <div class="upload-page border-top-line" @paste="handleTPaste">
+    <input id="focus" autofocus focus class="use-focus">
+    <div class="layout-slide p-2 switch-row token">
+      <Tag color="#fb7299">
+        默认复制格式
+      </Tag>
+      <RadioGroup v-model="copyStyle" @change="changeCopyStyle">
+        <Radio value="md">
+          Markdown
+        </Radio>
+        <!--        <radio value="shortURL"> -->
+        <!--          短链 -->
+        <!--        </radio> -->
+      </RadioGroup>
+    </div>
+    <div class="layout-slide p-2 switch-row token">
+      <Tag color="#fb7299">
+        当前SESSDATA
+      </Tag>
+      <Tag v-if="token" color="#00a1d6">
+        {{ token.substr(0, 8).padEnd(16, '*') }}
+      </Tag>
+
+      <Link v-else :href="loginUrl" class="">
+        您当前的浏览器未登录Bilibili，点我登录
+      </Link>
+    </div>
+    <div class="p-2 upload">
+      <Upload
+        ref="upload"
+        :action="uploadUrl"
+        draggable
+        list-type="picture"
+        accept="image/*"
+        multiple
+        :with-credentials="true"
+        :data="uploadData"
+        name="file_up"
+        :file-list="fileList"
+        @success="uploadSuccess"
+      >
+        <template #upload-button>
+          <div class="upload-main">
+            <span style="color: #3370FF"> 支持粘贴、拖动、点击文件上传</span>
+          </div>
+        </template>
+      </Upload>
+    </div>
+    <div class="px-2 result pb-4">
+      <div v-for="(link, index) in links" :key="link" class="layout-slide mb-2">
+        <div class="layout-items-center flex-grow">
+          <Tag color="#00a1d6" class="mr-2 flex-0-auto w-[80px]">
+            {{ types[index] }}
+          </Tag>
+          <TypographyParagraph
+            class="link break-all flex-grow"
+            underline
+            :ellipsis="{
+              showTooltip: true,
+            }"
+          >
+            {{ link }}
+          </TypographyParagraph>
+        </div>
+
+        <div class="ml-4 flex-0-auto">
+          <Button type="outline" size="small" @click="copyText(link)">
+            复制
+          </Button>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      By
+      <Link
+        class="author"
+        href="https://github.com/xlzy520"
+        target="_blank"
+      >
+        执笔看墨花开（GitHub）
+      </Link>
+      <div class="mr-2">
+        |
+      </div>
+      <Link
+        class="author"
+        href="https://space.bilibili.com/7560113"
+        target="_blank"
+      >
+        Bilibili
+      </Link>
+    </div>
+  </div>
+</template>
+
 <style lang="scss">
 .upload-main{
   background-color: var(--color-fill-2);
@@ -253,5 +253,4 @@ a {
     color: rosybrown;
   }
 }
-
 </style>

@@ -1,14 +1,18 @@
+/// <reference types="vitest" />
+
 import { dirname, relative } from 'path'
-import { defineConfig, UserConfig } from 'vite'
+import type { UserConfig } from 'vite'
+import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
-import VueJsx from '@vitejs/plugin-vue-jsx'
+import replace from '@rollup/plugin-replace'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import WindiCSS from 'vite-plugin-windicss'
 import windiConfig from './windi.config'
-import { r, port, isDev } from './scripts/utils'
+import { isDev, port, r } from './scripts/utils'
+import { MV3Hmr } from './vite-mv3-hmr'
 
 export const sharedConfig: UserConfig = {
   root: r('src'),
@@ -17,20 +21,16 @@ export const sharedConfig: UserConfig = {
       '~/': `${r('src')}/`,
     },
   },
-  define: {
-    __DEV__: isDev,
-  },
   plugins: [
-    Vue(),
-    VueJsx(),
+    Vue({
+      reactivityTransform: true,
+    }),
 
     AutoImport({
       imports: [
         'vue',
         {
-          'webextension-polyfill': [
-            ['default', 'browser'],
-          ],
+          'webextension-polyfill': [['*', 'browser']],
         },
       ],
       dts: r('src/auto-imports.d.ts'),
@@ -40,7 +40,7 @@ export const sharedConfig: UserConfig = {
     Components({
       dirs: [r('src/components')],
       // generate `components.d.ts` for ts support with Volar
-      dts: true,
+      dts: r('src/components.d.ts'),
       resolvers: [
         // auto import icons
         IconsResolver({
@@ -50,8 +50,13 @@ export const sharedConfig: UserConfig = {
     }),
 
     // https://github.com/antfu/unplugin-icons
-    Icons({
-      autoInstall: true,
+    Icons(),
+
+    replace({
+      '__DEV__': JSON.stringify(isDev),
+      'process.env.NODE_ENV': JSON.stringify(isDev ? 'development' : 'production'),
+      '__VUE_OPTIONS_API__': JSON.stringify(true),
+      '__VUE_PROD_DEVTOOLS__': JSON.stringify(false),
     }),
 
     // rewrite assets to use relative path
@@ -65,14 +70,8 @@ export const sharedConfig: UserConfig = {
     },
   ],
   optimizeDeps: {
-    include: [
-      'vue',
-      '@vueuse/core',
-      'webextension-polyfill',
-    ],
-    exclude: [
-      'vue-demi',
-    ],
+    include: ['vue', '@vueuse/core', 'webextension-polyfill'],
+    exclude: ['vue-demi'],
   },
 }
 
@@ -93,10 +92,8 @@ export default defineConfig(({ command }) => ({
     terserOptions: {
       mangle: false,
     },
-    brotliSize: false,
     rollupOptions: {
       input: {
-        background: r('src/background/index.html'),
         // options: r('src/options/index.html'),
         popup: r('src/popup/index.html'),
       },
@@ -104,10 +101,13 @@ export default defineConfig(({ command }) => ({
   },
   plugins: [
     ...sharedConfig.plugins!,
-
-    // https://github.com/antfu/vite-plugin-windicss
     WindiCSS({
       config: windiConfig,
     }),
+    MV3Hmr(),
   ],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+  },
 }))
