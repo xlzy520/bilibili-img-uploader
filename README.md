@@ -2,12 +2,6 @@
 哔哩哔哩图床插件，速度快,多种图片压缩格式选择，自动读取Bilibili的Cookie，不再需要手动输入。
 基于[vitesse-webext](https://github.com/xlzy520/vitesse-webext) 重构
 
-## 重要提示（请看）
-已找到新的处理方式，可以与之前的操作方式保持一致。**Chrome、Firefox已经提交审核，正在审核中...**
-
-原理：利用`declarativeNetRequest`移除或者修改`origin`请求头
-
-
 ### 在线安装
 [Chrome、Edge](https://chrome.google.com/webstore/detail/b%E7%AB%99%E5%9B%BE%E5%BA%8A/domljbndjbjgpkhdbmfgmiclggdfojnd?hl=zh-CN)
 
@@ -21,9 +15,12 @@
 2. 右上角开启`开发者模式`
 3. 左侧点击 `加载已解压的拓展程序`,然后选择上面下载好的压缩包解压后的文件夹即可。
 
-### 本地开发
-1. 执行`npm i`, 执行`npm run dev`
+### 本地开发(支持热更新)
+1. 执行`npm i`或者`pnpm i`, 执行`npm run dev`或`pnpm run dev`
 2. 上一步(安装步骤)将文件夹选择为`extension`文件夹
+
+### 构建
+执行`npm run build`或`pnpm run build`
 
 ### 截屏
 ![](https://i0.hdslb.com/bfs/album/c081e84238f29bbede300dff5d79112ef79d5985.png)
