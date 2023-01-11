@@ -4,10 +4,8 @@ specifiers:
   '@antfu/eslint-config': ^0.9.0
   '@arco-design/web-vue': ^2.11.1
   '@ffflorian/jszip-cli': ^3.1.5
-  '@iconify-json/el': ^1.0.1
   '@iconify-json/icon-park-outline': ^1.0.1
   '@iconify-json/pixelarticons': ^1.0.1
-  '@iconify-json/wi': ^1.0.1
   '@types/fs-extra': ^9.0.13
   '@types/node': ^16.10.2
   '@types/webextension-polyfill': ^0.8.0
@@ -49,10 +47,8 @@ dependencies:
 devDependencies:
   '@antfu/eslint-config': 0.9.0_eslint@7.32.0+typescript@4.4.3
   '@ffflorian/jszip-cli': 3.1.5
-  '@iconify-json/el': 1.0.1
   '@iconify-json/icon-park-outline': 1.0.2
   '@iconify-json/pixelarticons': 1.0.1
-  '@iconify-json/wi': 1.0.1
   '@types/fs-extra': 9.0.13
   '@types/node': 16.10.2
   '@types/webextension-polyfill': 0.8.0
@@ -807,12 +803,6 @@ packages:
     resolution: {integrity: sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==}
     dev: true
 
-  /@iconify-json/el/1.0.1:
-    resolution: {integrity: sha1-Wu5cERBShMYaZgCuaXNWa2YJ210=, tarball: '@iconify-json/el/download/@iconify-json/el-1.0.1.tgz'}
-    dependencies:
-      '@iconify/types': 1.0.12
-    dev: true
-
   /@iconify-json/icon-park-outline/1.0.2:
     resolution: {integrity: sha512-2g+TAqeP2mXR6oaQehFHYwbqXQMT23ksWRD3Ez9q4xpvGUSU++UR7d6Hxaj9F9QG4H31OZLnNmTeSsfPEmeHPw==, tarball: '@iconify-json/icon-park-outline/download/@iconify-json/icon-park-outline-1.0.2.tgz'}
     dependencies:
@@ -821,12 +811,6 @@ packages:
 
   /@iconify-json/pixelarticons/1.0.1:
     resolution: {integrity: sha1-MLSXbtXRYuzY8LzkZRYm9X5k7wQ=, tarball: '@iconify-json/pixelarticons/download/@iconify-json/pixelarticons-1.0.1.tgz'}
-    dependencies:
-      '@iconify/types': 1.0.12
-    dev: true
-
-  /@iconify-json/wi/1.0.1:
-    resolution: {integrity: sha1-evKtbi1XVcGwddhauDiFJCVYsm0=, tarball: '@iconify-json/wi/download/@iconify-json/wi-1.0.1.tgz'}
     dependencies:
       '@iconify/types': 1.0.12
     dev: true
