@@ -77,7 +77,7 @@ const exportJson = () => {
         const url = URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = url
-        a.download = `${formatDate()}.json`
+        a.download = `B站图床数据-${formatDate()}.json`
         a.display = 'none'
         document.body.appendChild(a)
         a.click()
