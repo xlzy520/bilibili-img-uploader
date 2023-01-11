@@ -24,15 +24,7 @@ const getImgList = () => {
     img_db.queryAll({
       tableName: 'img',
       success: (r) => {
-        r = r.sort((a, b) => b.date - a.date)
-        const res = []
-        r.forEach((v, index) => {
-          res.push({ ...v })
-
-          // if (index < 6) {
-          //   res.push(v)
-          // }
-        })
+        const res = r.sort((a, b) => b.date - a.date)
         filterData.value = res
         if (filterData.value.length > 4) {
           virtualListProps.value = { height: 400, threshold: 100, isStaticItemHeight: true, itemKey: 'id' }
@@ -106,7 +98,8 @@ onMounted(() => {
       </div>
       <Table class="img-table" :hide-header="true" row-key="id" :data="filterData" :pagination="paginationPros">
         <template #columns>
-          <TableColumn title="缩略图" width="100" align="center">
+          <TableColumn title="名称" :width="100" ellipsis tooltip data-index="name" />
+          <TableColumn title="缩略图" :width="100" align="center">
             <template #cell="{ record, index }">
               <Image
                 width="80"
@@ -117,12 +110,12 @@ onMounted(() => {
               />
             </template>
           </TableColumn>
-          <TableColumn title="分辨率" width="120" align="center">
+          <TableColumn title="分辨率" :width="120" align="center">
             <template #cell="{ record }">
               {{ record.width }} X {{ record.height }}
             </template>
           </TableColumn>
-          <TableColumn title="时间" width="120" align="center">
+          <TableColumn title="时间" :width="100" align="center">
             <template #cell="{ record }">
               {{ formatDate(record.date, '{y}-{m}-{d}') }}
             </template>
@@ -156,6 +149,9 @@ onMounted(() => {
   height: 400px;
   overflow: auto;
   margin-bottom: 40px;
+  &.arco-table .arco-table-cell{
+    padding: 8px;
+  }
 }
 .arco-table-pagination{
   position: fixed;
