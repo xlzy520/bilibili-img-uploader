@@ -7,7 +7,8 @@
   "author": "xlzy",
   "homepage": "https://github.com/xlzy520/bilibili-img-uploader",
   "scripts": {
-    "prod": "npm run build && npm run pack:zip && open .",
+    "prod": "npm run build && npm run pack:zip",
+    "prod:open": "npm run build && npm run pack:zip && open .",
     "publish:patch": "npm version patch && git push origin main --tags",
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
     "dev:prepare": "esno scripts/prepare.ts",
