@@ -32,7 +32,7 @@ export async function getManifest() {
       'cookies',
       'declarativeNetRequest',
     ],
-    // @ts-ignore 这个包暂时不支持Manifest V3, TS检查先忽略
+    // @ts-expect-error 这个包暂时不支持Manifest V3, TS检查先忽略
     declarative_net_request: {
       rule_resources: [
         {

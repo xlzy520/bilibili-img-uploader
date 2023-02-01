@@ -7,11 +7,13 @@ import { copyText, getPasteImg } from '~/utils'
 
 const homePage = 'https://bilibili.com'
 const loginUrl = 'https://passport.bilibili.com/login'
-const uploadUrl = 'https://api.vc.bilibili.com/api/v1/drawImage/upload'
+const uploadUrl = 'https://api.bilibili.com/x/article/creative/article/upcover'
+// const uploadUrl = 'https://api.vc.bilibili.com/api/v1/drawImage/upload'
 const token = ref('')
 const uploadData = {
   category: 'daily',
-  biz: 'draw',
+  biz: 'new_dyn',
+  csrf: '',
 }
 const fileList = ref([])
 const upload = ref(null)
@@ -22,7 +24,7 @@ const links = ref([])
 
 const getResponseImgUrlHttps = (res) => {
   if (res) {
-    return res.data.image_url.replace('http', 'https')
+    return res.data.url.replace('http', 'https')
   }
   return ''
 }
@@ -41,7 +43,7 @@ const toLogin = () => {
 
 const uploadSuccess = (FileItem) => {
   const res = FileItem.response
-  if (res.data?.image_url) {
+  if (res.data?.url) {
     const link = getResponseImgUrlHttps(res)
     const mdValue = `![](${link})`
     links.value = [link, mdValue]
@@ -111,7 +113,7 @@ const getCrsfToken = () => {
   }).then((res) => {
     console.log(res)
     if (res.value) {
-      uploadData.csrf_token = res.value
+      uploadData.csrf = res.value
     }
   })
 }
@@ -160,7 +162,7 @@ onMounted(() => {
         multiple
         :with-credentials="true"
         :data="uploadData"
-        name="file_up"
+        name="binary"
         :file-list="fileList"
         @success="uploadSuccess"
       >
