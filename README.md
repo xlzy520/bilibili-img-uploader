@@ -8,7 +8,7 @@
 [Firefox](https://addons.mozilla.org/addon/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E5%9B%BE%E5%BA%8A/)
 
 ### 在线使用
-假如有需要使用Web版本的图床上传工具，那么可以使用这个地址，但是需要填写自己的SESSDATA的bili_jct，如果您有顾虑，还是建议使用客户端版
+假如有需要使用Web版本的图床上传工具，那么可以使用这个地址，但是需要填写自己B站的SESSDATA和bili_jct，如果您有顾虑，还是建议使用客户端版
 
 [Web在线版](https://www.xiaojuzi.fun/bili-short-url/upload.html)
 
