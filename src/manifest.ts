@@ -30,18 +30,7 @@ export async function getManifest() {
     },
     permissions: [
       'cookies',
-      'declarativeNetRequest',
     ],
-    // @ts-expect-error 这个包暂时不支持Manifest V3, TS检查先忽略
-    declarative_net_request: {
-      rule_resources: [
-        {
-          id: 'ruleset_1',
-          enabled: true,
-          path: './assets/rules.json',
-        },
-      ],
-    },
     host_permissions: [
       'https://*.bilibili.com/*',
     ],
