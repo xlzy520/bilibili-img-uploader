@@ -8,16 +8,6 @@ import ImageList from './pages/ImageList.vue'
 import db_img_config from './db_img_config'
 import { formatDate } from '~/utils'
 
-const pages = reactive([{
-  name: '图片上传',
-  component: Upload,
-}, {
-  name: '已上传图片',
-  component: ImageList,
-}])
-
-const refreshKey = ref(0)
-
 onMounted(() => {
 })
 
@@ -91,7 +81,7 @@ const exportJson = () => {
 <template>
   <main class="w-[600px] px-1 py-4 text-gray-700">
     <div class="">
-      <Tabs size="large" type="rounded" destroy-on-hide default-active-key="图片上传">
+      <Tabs size="large" type="rounded" destroy-on-hide lazy-load default-active-key="upload">
         <template #extra>
           <input id="importJson" type="file" hidden @change="inputChange">
           <Button type="outline" size="mini" @click="importJson">
@@ -107,8 +97,11 @@ const exportJson = () => {
             数据导出
           </Button>
         </template>
-        <TabPane v-for="item in pages" :key="item.name" :title="item.name">
-          <component :is="item.component" :refresh-key="refreshKey" />
+        <TabPane key="upload" title="图片上传">
+          <Upload />
+        </TabPane>
+        <TabPane key="images" title="已传图片">
+          <ImageList />
         </TabPane>
       </Tabs>
     </div>

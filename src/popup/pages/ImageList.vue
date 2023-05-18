@@ -5,11 +5,6 @@ import { IconDelete } from '@arco-design/web-vue/es/icon'
 import db_img_config from '../db_img_config'
 import { copyText, formatDate } from '~/utils'
 
-const props = defineProps({
-  refreshKey: Number,
-})
-
-const virtualListProps = ref(null)
 const scrollPercent = { y: 400 }
 const paginationPros = {
   'show-page-size': true,
@@ -27,11 +22,7 @@ const getImgList = () => {
       success: (r) => {
         const res = r.sort((a, b) => b.date - a.date)
         filterData.value = res
-        if (filterData.value.length > 4) {
-          virtualListProps.value = { height: 400, threshold: 100, isStaticItemHeight: true, itemKey: 'id' }
-        }
         data.value = res
-        console.log(res)
       },
     })
   })
@@ -80,10 +71,6 @@ const onDateChange = (dateStr, date) => {
     filterData.value = data.value
   }
 }
-
-watch(props, () => {
-  getImgList()
-})
 
 onMounted(() => {
   getImgList()
