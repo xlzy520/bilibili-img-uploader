@@ -3,7 +3,7 @@ import Idb from 'idb-js'
 import uuid from 'uuidjs'
 import { Button, Link, Message, Radio, RadioGroup, Tag, TypographyParagraph, Upload } from '@arco-design/web-vue'
 import db_img_config from '../db_img_config'
-import { copyText, getPasteImg } from '~/utils'
+import { copyText, getImgSize, getPasteImg } from '~/utils'
 
 const homePage = 'https://bilibili.com'
 const loginUrl = 'https://passport.bilibili.com/login'
@@ -22,14 +22,7 @@ const types = ref(['图片链接', 'MarkDown', 'B站短链'])
 
 const links = ref([])
 
-const getResponseImgUrlHttps = (res) => {
-  if (res) {
-    return res.data.url.replace('http', 'https')
-  }
-  return ''
-}
-
-const copyStyle = ref('md')
+const copyStyle = ref('markdown')
 const changeCopyStyle = (val) => {
   localStorage.setItem('copyStyle', val)
 }
@@ -41,16 +34,29 @@ const toLogin = () => {
   }, 1000)
 }
 
-const uploadSuccess = (FileItem) => {
+const getResponseImgUrlHttps = (res) => {
+  if (res) {
+    return res.data.url.replace('http', 'https')
+  }
+  return ''
+}
+
+const uploadSuccess = async (FileItem) => {
   const res = FileItem.response
   if (res.data?.url) {
     const link = getResponseImgUrlHttps(res)
-    const mdValue = `![](${link})`
-    links.value = [link, mdValue]
-    const copyMD = copyStyle.value === 'md'
+    const copyMD = copyStyle.value === 'markdown'
     if (copyMD) {
+      const mdValue = `![](${link})`
+      links.value = [link, mdValue]
       copyText(mdValue)
     }
+    else {
+      const webpValue = `${link}@1e_1c.webp`
+      links.value = [link, webpValue]
+      copyText(webpValue)
+    }
+    const { width, height } = await getImgSize(FileItem.file)
     Idb(db_img_config).then((img_db) => {
       img_db.insert({
         tableName: 'img',
@@ -58,8 +64,8 @@ const uploadSuccess = (FileItem) => {
           id: uuid.generate(),
           name: FileItem.name,
           url: link,
-          width: res.data.image_width,
-          height: res.data.image_height,
+          width,
+          height,
           date: Date.now(),
         },
         success: () => console.log('添加成功'),
@@ -74,10 +80,6 @@ const uploadSuccess = (FileItem) => {
       Message.error(`上传失败:${res.message}`)
     }
   }
-}
-
-const resUrlKey = (FileItem) => {
-  return getResponseImgUrlHttps(FileItem.response)
 }
 
 const handleTPaste = (event) => {
@@ -121,6 +123,10 @@ const getCrsfToken = () => {
 onMounted(() => {
   getToken()
   getCrsfToken()
+  const copyStyleLocal = localStorage.getItem('copyStyle')
+  if (copyStyleLocal) {
+    copyStyle.value = copyStyleLocal
+  }
 })
 </script>
 
@@ -132,12 +138,12 @@ onMounted(() => {
         默认复制格式
       </Tag>
       <RadioGroup v-model="copyStyle" @change="changeCopyStyle">
-        <Radio value="md">
-          Markdown
+        <Radio value="markdown">
+          markdown
         </Radio>
-        <!--        <radio value="shortURL"> -->
-        <!--          短链 -->
-        <!--        </radio> -->
+        <Radio value="webp">
+          webp
+        </Radio>
       </RadioGroup>
     </div>
     <div class="layout-slide p-2 switch-row token">
