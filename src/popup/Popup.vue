@@ -1,51 +1,12 @@
-<template>
-  <main class="w-[600px] px-1 py-4 text-gray-700">
-    <!--    <Logo />-->
-    <div class="">
-      <tabs size="large" type="rounded" destroy-on-hide default-active-key="图片上传">
-        <template #extra>
-          <input id="importJson" type="file" hidden @change="inputChange" />
-          <Button type="outline" size="mini" @click="importJson">
-            <template #icon>
-              <IconImport />
-            </template>
-            数据导入
-          </Button>
-          <Button class="ml-2" size="mini" type="outline" @click="exportJson">
-            <template #icon>
-              <IconExport />
-            </template>
-            数据导出
-          </Button>
-        </template>
-        <tab-pane v-for="item in pages" :key="item.name" :title="item.name">
-          <component :is="item.component" :refresh-key="refreshKey"></component>
-        </tab-pane>
-      </tabs>
-    </div>
-  </main>
-</template>
-
 <script setup>
 import Idb from 'idb-js'
 import uuid from 'uuidjs'
-import { Button, Tabs, TabPane, Message } from '@arco-design/web-vue'
-import { IconImport, IconExport } from '@arco-design/web-vue/es/icon'
+import { Button, Message, TabPane, Tabs } from '@arco-design/web-vue'
+import { IconExport, IconImport } from '@arco-design/web-vue/es/icon'
 import Upload from './pages/Upload.vue'
 import ImageList from './pages/ImageList.vue'
 import db_img_config from './db_img_config'
-import { storageDemo } from '~/logic/storage'
 import { formatDate } from '~/utils'
-
-const pages = reactive([{
-  name: '图片上传',
-  component: Upload,
-}, {
-  name: '已上传图片',
-  component: ImageList,
-}])
-
-const refreshKey = ref(0)
 
 onMounted(() => {
 })
@@ -106,7 +67,7 @@ const exportJson = () => {
         const url = URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = url
-        a.download = `${formatDate()}.json`
+        a.download = `B站图床数据-${formatDate()}.json`
         a.display = 'none'
         document.body.appendChild(a)
         a.click()
@@ -115,11 +76,37 @@ const exportJson = () => {
     })
   })
 }
-
-// function openOptionsPage() {
-//   browser.runtime.openOptionsPage()
-// }
 </script>
+
+<template>
+  <main class="w-[600px] px-1 py-4 text-gray-700">
+    <div class="">
+      <Tabs size="large" type="rounded" destroy-on-hide lazy-load default-active-key="upload">
+        <template #extra>
+          <input id="importJson" type="file" hidden @change="inputChange">
+          <Button type="outline" size="mini" @click="importJson">
+            <template #icon>
+              <IconImport />
+            </template>
+            数据导入
+          </Button>
+          <Button class="ml-2" size="mini" type="outline" @click="exportJson">
+            <template #icon>
+              <IconExport />
+            </template>
+            数据导出
+          </Button>
+        </template>
+        <TabPane key="upload" title="图片上传">
+          <Upload />
+        </TabPane>
+        <TabPane key="images" title="已传图片">
+          <ImageList />
+        </TabPane>
+      </Tabs>
+    </div>
+  </main>
+</template>
 
 <style lang="scss">
 

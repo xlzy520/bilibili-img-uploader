@@ -1,51 +1,10 @@
 import { Message } from '@arco-design/web-vue'
 import { dayjs } from '@arco-design/web-vue/es/_utils/date'
 
-export function copyToClipboard(input, { target = document.body } = {}) {
-  const element = document.createElement('textarea')
-  const previouslyFocusedElement = document.activeElement
-
-  element.value = input
-
-  // Prevent keyboard from showing on mobile
-  element.setAttribute('readonly', '')
-
-  element.style.contain = 'strict'
-  element.style.position = 'absolute'
-  element.style.left = '-9999px'
-  element.style.fontSize = '12pt' // Prevent zooming on iOS
-
-  const selection = document.getSelection()
-  const originalRange = selection.rangeCount > 0 && selection.getRangeAt(0)
-
-  target.append(element)
-  element.select()
-
-  // Explicit selection workaround for iOS
-  element.selectionStart = 0
-  element.selectionEnd = input.length
-
-  let isSuccess = false
-  try {
-    isSuccess = document.execCommand('copy')
-  }
-  catch {}
-
-  element.remove()
-
-  if (originalRange) {
-    selection.removeAllRanges()
-    selection.addRange(originalRange)
-  }
-
-  // Get the focus back on the previously focused element, if any
-  if (previouslyFocusedElement && previouslyFocusedElement.focus) {
-    previouslyFocusedElement.focus()
-  }
-
-  Message.success(isSuccess ? '复制成功' : '复制失败')
-
-  return isSuccess
+export const copyText = (text) => {
+  return window.navigator.clipboard.writeText(text).then(() => {
+    Message.success('复制成功')
+  })
 }
 
 export const filterImages = (items) => {
@@ -93,4 +52,19 @@ export const getPasteImg = (event) => {
       }
     }
   }
+}
+
+// 从本地上传的图片或者粘贴的图片中得到他们的分辨率
+export const getImgSize = (file) => {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => {
+      resolve({
+        width: img.width,
+        height: img.height,
+      })
+    }
+    img.onerror = reject
+    img.src = URL.createObjectURL(file)
+  })
 }

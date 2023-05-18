@@ -1,3 +1,135 @@
+<script setup>
+import Idb from 'idb-js'
+import uuid from 'uuidjs'
+import { Button, Link, Message, Radio, RadioGroup, Tag, TypographyParagraph, Upload } from '@arco-design/web-vue'
+import db_img_config from '../db_img_config'
+import { copyText, getImgSize, getPasteImg } from '~/utils'
+
+const homePage = 'https://bilibili.com'
+const loginUrl = 'https://passport.bilibili.com/login'
+const uploadUrl = 'https://api.bilibili.com/x/article/creative/article/upcover'
+// const uploadUrl = 'https://api.vc.bilibili.com/api/v1/drawImage/upload'
+const token = ref('')
+const uploadData = {
+  category: 'daily',
+  biz: 'new_dyn',
+  csrf: '',
+}
+const fileList = ref([])
+const upload = ref(null)
+
+const types = ref(['图片链接', 'MarkDown', 'B站短链'])
+
+const links = ref([])
+
+const copyStyle = ref('markdown')
+const changeCopyStyle = (val) => {
+  localStorage.setItem('copyStyle', val)
+}
+
+const toLogin = () => {
+  Message.warning('未登录或登录已过期, 一秒后自动跳转登录页...')
+  setTimeout(() => {
+    window.open(loginUrl)
+  }, 1000)
+}
+
+const getResponseImgUrlHttps = (res) => {
+  if (res) {
+    return res.data.url.replace('http', 'https')
+  }
+  return ''
+}
+
+const uploadSuccess = async (FileItem) => {
+  const res = FileItem.response
+  if (res.data?.url) {
+    const link = getResponseImgUrlHttps(res)
+    const copyMD = copyStyle.value === 'markdown'
+    if (copyMD) {
+      const mdValue = `![](${link})`
+      links.value = [link, mdValue]
+      copyText(mdValue)
+    }
+    else {
+      const webpValue = `${link}@1e_1c.webp`
+      links.value = [link, webpValue]
+      copyText(webpValue)
+    }
+    const { width, height } = await getImgSize(FileItem.file)
+    Idb(db_img_config).then((img_db) => {
+      img_db.insert({
+        tableName: 'img',
+        data: {
+          id: uuid.generate(),
+          name: FileItem.name,
+          url: link,
+          width,
+          height,
+          date: Date.now(),
+        },
+        success: () => console.log('添加成功'),
+      })
+    })
+  }
+  else {
+    if (res.message === '请先登录') {
+      toLogin()
+    }
+    else {
+      Message.error(`上传失败:${res.message}`)
+    }
+  }
+}
+
+const handleTPaste = (event) => {
+  if (!token.value) {
+    toLogin()
+    return
+  }
+  const image = getPasteImg(event)
+  console.log(image)
+  if (image) {
+    fileList.value = [image]
+    nextTick(() => {
+      upload.value.submit(image)
+    })
+  }
+}
+
+const getToken = () => {
+  browser.cookies.get({
+    name: 'SESSDATA',
+    url: homePage,
+  }).then((res) => {
+    console.log(res)
+    if (res.value) {
+      token.value = res.value
+    }
+  })
+}
+const getCrsfToken = () => {
+  browser.cookies.get({
+    name: 'bili_jct',
+    url: homePage,
+  }).then((res) => {
+    console.log(res)
+    if (res.value) {
+      uploadData.csrf = res.value
+    }
+  })
+}
+
+onMounted(() => {
+  getToken()
+  getCrsfToken()
+  const copyStyleLocal = localStorage.getItem('copyStyle')
+  if (copyStyleLocal) {
+    copyStyle.value = copyStyleLocal
+  }
+})
+</script>
+
 <template>
   <div class="upload-page border-top-line" @paste="handleTPaste">
     <input id="focus" autofocus focus class="use-focus">
@@ -5,21 +137,21 @@
       <Tag color="#fb7299">
         默认复制格式
       </Tag>
-      <radio-group v-model="copyStyle" @change="changeCopyStyle">
-        <radio value="md">
-          Markdown
-        </radio>
-        <!--        <radio value="shortURL">-->
-        <!--          短链-->
-        <!--        </radio>-->
-      </radio-group>
+      <RadioGroup v-model="copyStyle" @change="changeCopyStyle">
+        <Radio value="markdown">
+          markdown
+        </Radio>
+        <Radio value="webp">
+          webp
+        </Radio>
+      </RadioGroup>
     </div>
     <div class="layout-slide p-2 switch-row token">
       <Tag color="#fb7299">
         当前SESSDATA
       </Tag>
       <Tag v-if="token" color="#00a1d6">
-        {{ token.substr(0, 8).padEnd(16,'*') }}
+        {{ token.substr(0, 8).padEnd(16, '*') }}
       </Tag>
 
       <Link v-else :href="loginUrl" class="">
@@ -65,7 +197,7 @@
         </div>
 
         <div class="ml-4 flex-0-auto">
-          <Button type="outline" size="small" @click="copyToClipboard(link)">
+          <Button type="outline" size="small" @click="copyText(link)">
             复制
           </Button>
         </div>
@@ -94,131 +226,6 @@
   </div>
 </template>
 
-<script setup>
-import Idb from 'idb-js'
-import uuid from 'uuidjs'
-import { Button, Tag, Link, Upload, Message, TypographyParagraph, RadioGroup, Radio } from '@arco-design/web-vue'
-import db_img_config from '../db_img_config'
-import { copyToClipboard, getPasteImg } from '~/utils'
-
-const homePage = 'https://bilibili.com'
-const loginUrl = 'https://passport.bilibili.com/login'
-const uploadUrl = 'https://api.bilibili.com/x/article/creative/article/upcover'
-const token = ref('')
-const uploadData = reactive({
-  category: 'daily',
-  biz: 'draw',
-  csrf: '',
-})
-const fileList = ref([])
-const upload = ref(null)
-
-const types = ref(['图片链接', 'MarkDown', 'B站短链'])
-
-const links = ref([])
-
-const getResponseImgUrlHttps = (res) => {
-  if (res) {
-    return res.data.url.replace('http', 'https')
-  }
-  return ''
-}
-
-const copyStyle = ref('md')
-const changeCopyStyle = (val) => {
-  localStorage.setItem('copyStyle', val)
-}
-
-const toLogin = () => {
-  Message.warning('未登录或登录已过期, 一秒后自动跳转登录页...')
-  setTimeout(() => {
-    window.open(loginUrl)
-  }, 1000)
-}
-
-const uploadSuccess = (FileItem) => {
-  const res = FileItem.response
-  if (res.data?.url) {
-    const link = getResponseImgUrlHttps(res)
-    const mdValue = `![](${link})`
-    links.value = [link, mdValue]
-    const copyMD = copyStyle.value === 'md'
-    if (copyMD) {
-      copyToClipboard(mdValue)
-    }
-    Idb(db_img_config).then((img_db) => {
-      img_db.insert({
-        tableName: 'img',
-        data: {
-          id: uuid.generate(),
-          name: FileItem.name,
-          url: link,
-          width: res.data.image_width,
-          height: res.data.image_height,
-          date: Date.now(),
-        },
-        success: () => console.log('添加成功'),
-      })
-    })
-  }
-  else {
-    if (res.message === '请先登录') {
-      toLogin()
-    }
-    else {
-      Message.error(`上传失败:${res.message}`)
-    }
-  }
-}
-
-const resUrlKey = (FileItem) => {
-  return getResponseImgUrlHttps(FileItem.response)
-}
-
-const handleTPaste = (event) => {
-  if (!token.value) {
-    toLogin()
-    return
-  }
-  const image = getPasteImg(event)
-  console.log(image)
-  if (image) {
-    fileList.value = [image]
-    nextTick(() => {
-      upload.value.submit(image)
-    })
-  }
-}
-
-const getToken = () => {
-  browser.cookies.get({
-    name: 'SESSDATA',
-    url: homePage,
-  }).then((res) => {
-    console.log(res)
-    if (res.value) {
-      token.value = res.value
-    }
-  })
-}
-const getCrsfToken = () => {
-  browser.cookies.get({
-    name: 'bili_jct',
-    url: homePage,
-  }).then((res) => {
-    console.log(res)
-    if (res.value) {
-      uploadData.csrf = res.value
-    }
-  })
-}
-
-onMounted(() => {
-  getToken()
-  getCrsfToken()
-})
-
-</script>
 <style lang="scss">
 .upload-main{
   background-color: var(--color-fill-2);
@@ -254,5 +261,4 @@ a {
     color: rosybrown;
   }
 }
-
 </style>
