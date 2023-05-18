@@ -1,6 +1,6 @@
 <script setup>
 import Idb from 'idb-js'
-import { Button, Image, Message, Popconfirm, RangePicker, Spin, Table, TableColumn, Tag } from '@arco-design/web-vue'
+import { Button, Doption, Dropdown, Image, Message, Popconfirm, RangePicker, Spin, Table, TableColumn, Tag } from '@arco-design/web-vue'
 import { IconDelete } from '@arco-design/web-vue/es/icon'
 import db_img_config from '../db_img_config'
 import { copyText, formatDate } from '~/utils'
@@ -10,6 +10,7 @@ const props = defineProps({
 })
 
 const virtualListProps = ref(null)
+const scrollPercent = { y: 400 }
 const paginationPros = {
   'show-page-size': true,
 }
@@ -36,17 +37,22 @@ const getImgList = () => {
   })
 }
 
-const copy = (record, type) => {
+const copyImageUrl = (type, record) => {
+  console.log(record, type, '===========打印的 ------ copyImageUrl')
   let url = record.url
   switch (type) {
-    case 'MD':
+    case 'markdown':
       url = `![](${url}@1e_1c.webp)`
+      break
+    case 'webp':
+      url = `${url}@1e_1c.webp`
       break
     default:
       break
   }
   copyText(url)
 }
+
 const remove = (record) => {
   Idb(db_img_config).then((img_db) => {
     img_db.delete({
@@ -96,11 +102,11 @@ onMounted(() => {
           共 {{ data.length }}条
         </Tag>
       </div>
-      <Table class="img-table" :hide-header="true" row-key="id" :data="filterData" :pagination="paginationPros">
+      <Table class="img-table" :scroll="scrollPercent" :hide-header="true" row-key="id" :data="filterData" :pagination="paginationPros">
         <template #columns>
           <TableColumn title="名称" :width="100" ellipsis tooltip data-index="name" />
           <TableColumn title="缩略图" :width="100" align="center">
-            <template #cell="{ record, index }">
+            <template #cell="{ record }">
               <Image
                 width="80"
                 height="80"
@@ -120,18 +126,19 @@ onMounted(() => {
               {{ formatDate(record.date, '{y}-{m}-{d}') }}
             </template>
           </TableColumn>
-          <TableColumn title="操作">
+          <TableColumn title="操作" align="center">
             <template #cell="{ record }">
               <div>
-                <!--                <Button type="outline" size="mini" @click="getShortUrl(record.url)"> -->
-                <!--                  短链 -->
-                <!--                </Button> -->
-                <Button class="ml-2" type="primary" status="success" size="mini" @click="copy(record)">
-                  原图
-                </Button>
-                <Button class="ml-2" type="primary" status="warning" size="mini" @click="copy(record, 'MD')">
-                  MD
-                </Button>
+                <Dropdown trigger="hover" @select="val => copyImageUrl(val, record)">
+                  <Button type="primary" size="small">
+                    复制
+                  </Button>
+                  <template #content>
+                    <Doption>原图</Doption>
+                    <Doption>markdown</Doption>
+                    <Doption>webp</Doption>
+                  </template>
+                </Dropdown>
                 <Popconfirm content="确认删除吗？" position="lt" @ok="remove(record)">
                   <IconDelete class="ml-2 cursor-pointer hover:text-red-400" />
                 </Popconfirm>
