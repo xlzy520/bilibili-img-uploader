@@ -76,7 +76,11 @@
 ```html
 <meta name="referrer" content="no-referrer">
 ```
-### 新窗口打开
+#### 单个图片使用
+```html
+<img src="xxx" referrerpolicy="no-referrer" >
+```
+#### 新窗口打开
 主要设置rel="noreferrer"，使用window.open打开的话是会默认携带referrer的，第一次还是会403
 
 ```html
