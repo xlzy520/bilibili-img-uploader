@@ -53,3 +53,18 @@ export const getPasteImg = (event) => {
     }
   }
 }
+
+// 从本地上传的图片或者粘贴的图片中得到他们的分辨率
+export const getImgSize = (file) => {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => {
+      resolve({
+        width: img.width,
+        height: img.height,
+      })
+    }
+    img.onerror = reject
+    img.src = URL.createObjectURL(file)
+  })
+}
