@@ -17,7 +17,7 @@ export async function getManifest() {
     action: {
       default_title: '哔哩哔哩图床',
       default_icon: './assets/favicon.png',
-      default_popup: './dist/popup/index.html',
+      // default_popup: './dist/popup/index.html',
     },
     background: {
       service_worker: './dist/background/index.mjs',
@@ -34,6 +34,11 @@ export async function getManifest() {
     host_permissions: [
       'https://*.bilibili.com/*',
     ],
+    content_scripts: [{
+      matches: ['https://*.bilibili.com/*'],
+      js: ['./dist/contentScripts/index.global.js'],
+      css: ['./dist/contentScripts/style.css'],
+    }],
     content_security_policy: {
       extension_pages: isDev // this is required on dev for Vite script to load
         ? `script-src 'self' http://localhost:${port}; object-src 'self' http://localhost:${port}`

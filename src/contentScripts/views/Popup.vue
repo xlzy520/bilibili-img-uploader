@@ -79,7 +79,7 @@ const exportJson = () => {
 </script>
 
 <template>
-  <main class="main px-1 py-4 text-gray-700">
+  <main class="w-[600px] px-1 py-4 text-gray-700">
     <div class="">
       <Tabs size="large" type="rounded" destroy-on-hide lazy-load default-active-key="upload">
         <template #extra>
@@ -109,11 +109,5 @@ const exportJson = () => {
 </template>
 
 <style lang="scss">
-.main{
-  width: 60%;
-  margin: 0 auto;
-  background: #fff;
-  border-radius: 3px;
-  margin-top: 40px;
-}
+
 </style>

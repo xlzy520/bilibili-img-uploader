@@ -7,15 +7,13 @@ import { copyText, getImgSize, getPasteImg } from '~/utils'
 
 const homePage = 'https://bilibili.com'
 const loginUrl = 'https://passport.bilibili.com/login'
-const uploadUrl = 'https://member.bilibili.com/x/vu/web/cover/up'
+// const uploadUrl = 'https://member.bilibili.com/x/vu/web/cover/up'
 // const uploadUrl = 'https://member.bilibili.com/x/material/up/upload'
-// const uploadUrl = 'https://api.bilibili.com/x/dynamic/feed/draw/upload_bfs'
+const uploadUrl = 'https://api.bilibili.com/x/dynamic/feed/draw/upload_bfs'
 // const uploadUrl = 'https://api.vc.bilibili.com/api/v1/drawImage/upload'
 const token = ref('')
 const uploadData = {
-  bucket: 'article',
-  dir: '',
-  // biz: 'article',
+  biz: 'article',
   csrf: '',
 }
 const fileList = ref([])
@@ -39,14 +37,14 @@ const toLogin = () => {
 
 const getResponseImgUrlHttps = (res) => {
   if (res) {
-    return res.data.url.replace('http', 'https')
+    return res.data.image_url.replace('http', 'https')
   }
   return ''
 }
 
 const uploadSuccess = async (FileItem) => {
   const res = FileItem.response
-  if (res.data?.url) {
+  if (res.data?.image_url) {
     const link = getResponseImgUrlHttps(res)
     const copyMD = copyStyle.value === 'markdown'
     if (copyMD) {
@@ -101,26 +99,14 @@ const handleTPaste = (event) => {
 }
 
 const getToken = () => {
-  browser.cookies.get({
-    name: 'SESSDATA',
-    url: homePage,
-  }).then((res) => {
-    console.log(res)
-    if (res.value) {
-      token.value = res.value
-    }
-  })
+  const cookie = document.cookie
+  const SESSDATA = cookie.match(/SESSDATA=(.+?);/)[1]
+  token.value = SESSDATA
 }
 const getCrsfToken = () => {
-  browser.cookies.get({
-    name: 'bili_jct',
-    url: homePage,
-  }).then((res) => {
-    console.log(res)
-    if (res.value) {
-      uploadData.csrf = res.value
-    }
-  })
+  const cookie = document.cookie
+  const csrf = cookie.match(/bili_jct=(.+?);/)[1]
+  uploadData.csrf = csrf
 }
 
 onMounted(() => {
@@ -171,7 +157,7 @@ onMounted(() => {
         multiple
         :with-credentials="true"
         :data="uploadData"
-        name="file"
+        name="file_up"
         :file-list="fileList"
         @success="uploadSuccess"
       >
