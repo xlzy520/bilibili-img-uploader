@@ -1,7 +1,7 @@
 {
   "name": "bilibili-img-uploader",
   "displayName": "B站图床",
-  "version": "2.1.3",
+  "version": "2.2.0",
   "description": "B站图床、转短链插件",
   "private": true,
   "author": "xlzy",
