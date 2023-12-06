@@ -12,6 +12,10 @@ const loginUrl = 'https://passport.bilibili.com/login'
 const uploadUrl = 'https://api.bilibili.com/x/dynamic/feed/draw/upload_bfs'
 // const uploadUrl = 'https://api.vc.bilibili.com/api/v1/drawImage/upload'
 const token = ref('')
+const nickname = ref('')
+const mid = ref('')
+const face = ref('')
+
 const uploadData = {
   biz: 'article',
   csrf: '',
@@ -98,19 +102,27 @@ const handleTPaste = (event) => {
   }
 }
 
-const getToken = () => {
-  const cookie = document.cookie
-  const SESSDATA = cookie.match(/SESSDATA=(.+?);/)[1]
-  token.value = SESSDATA
-}
 const getCrsfToken = () => {
   const cookie = document.cookie
   const csrf = cookie.match(/bili_jct=(.+?);/)[1]
   uploadData.csrf = csrf
 }
 
+const getSpaceInfo = () => {
+  return fetch('https://api.bilibili.com/x/space/myinfo', {
+    credentials: 'include',
+  }).then(res => res.json()).then((res) => {
+    if (res.code === 0) {
+      const { name, mid: m, face: f } = res.data
+      nickname.value = name
+      mid.value = m
+      face.value = f
+    }
+  })
+}
+
 onMounted(() => {
-  getToken()
+  getSpaceInfo()
   getCrsfToken()
   const copyStyleLocal = localStorage.getItem('copyStyle')
   if (copyStyleLocal) {
@@ -135,13 +147,18 @@ onMounted(() => {
         </Radio>
       </RadioGroup>
     </div>
+    <div v-if="sessdata" class="layout-slide border-bottom p-2" />
     <div class="layout-slide p-2 switch-row token">
       <Tag color="#fb7299">
-        当前SESSDATA
+        当前账号信息
       </Tag>
-      <Tag v-if="token" color="#00a1d6">
-        {{ token.substr(0, 8).padEnd(16, '*') }}
-      </Tag>
+      <div v-if="nickname" class="layout-items-center">
+        <img :src="face" class="bili-avatar">
+        <span class="ml-2">{{ nickname }}</span>
+        <Tag v-if="mid" class="ml-2" color="#00a1d6">
+          {{ mid }}
+        </Tag>
+      </div>
 
       <Link v-else :href="loginUrl" class="">
         您当前的浏览器未登录Bilibili，点我登录
@@ -249,5 +266,10 @@ a {
   .author {
     color: rosybrown;
   }
+}
+.bili-avatar{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 </style>
