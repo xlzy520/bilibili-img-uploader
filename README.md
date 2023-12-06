@@ -3,7 +3,7 @@
 基于[vitesse-webext](https://github.com/xlzy520/vitesse-webext) 重构
 
 ### 说明
-由于B站将之前的图片上传接口返回的图片链接不是永久的了，其他接口又因为`Origin`会被拦截，因此在`v2.0.5`版本之后，不再显示在右上角，而是直接注入到B站页面中。
+由于B站将之前的图片上传接口返回的图片链接不是永久的了，其他接口又因为`Origin`会被拦截，因此在`v2.2.0`版本之后，不再显示在右上角，而是直接注入到B站页面中。
 
 ### 在线安装
 [Chrome、Edge](https://chrome.google.com/webstore/detail/b%E7%AB%99%E5%9B%BE%E5%BA%8A/domljbndjbjgpkhdbmfgmiclggdfojnd?hl=zh-CN)
