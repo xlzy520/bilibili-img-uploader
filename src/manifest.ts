@@ -34,11 +34,19 @@ export async function getManifest() {
     host_permissions: [
       'https://*.bilibili.com/*',
     ],
-    content_scripts: [{
-      matches: ['https://*.bilibili.com/*'],
-      js: ['./dist/contentScripts/index.global.js'],
-      css: ['./dist/contentScripts/style.css'],
-    }],
+    content_scripts: [
+      {
+        matches: ['https://*.bilibili.com/*'],
+        js: ['./dist/contentScripts/index.global.js'],
+      },
+      {
+        matches: ['https://www.bilibili.com/zhibi-image-upload'],
+        js: ['./dist/contentScripts/index.global.js'],
+        css: ['./dist/contentScripts/style.css'],
+        run_at: 'document_start',
+      },
+
+    ],
     content_security_policy: {
       extension_pages: isDev // this is required on dev for Vite script to load
         ? `script-src 'self' http://localhost:${port}; object-src 'self' http://localhost:${port}`
