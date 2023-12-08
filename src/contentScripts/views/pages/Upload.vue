@@ -88,7 +88,7 @@ const uploadSuccess = async (FileItem) => {
 }
 
 const handleTPaste = (event) => {
-  if (!token.value) {
+  if (!mid.value) {
     toLogin()
     return
   }
