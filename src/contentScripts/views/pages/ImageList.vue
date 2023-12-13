@@ -72,70 +72,79 @@ const onDateChange = (dateStr, date) => {
   }
 }
 
+const viewHistory = () => {
+  const id = browser.runtime.id
+  const url = `chrome-extension://${id}/dist/popup/index.html`
+  window.open(url)
+}
+
 onMounted(() => {
   getImgList()
 })
 </script>
 
 <template>
-  <Spin :loading="loading" tip="正在获取短链..." class="w-full">
-    <div class=" px-2">
-      <div class="layout-slide mb-2 w-full">
-        <RangePicker
-          clearable
-          @change="onDateChange"
-        />
-        <Tag color="#fb7299">
-          共 {{ data.length }}条
-        </Tag>
-      </div>
-      <Table class="img-table" :scroll="scrollPercent" :hide-header="true" row-key="id" :data="filterData" :pagination="paginationPros">
-        <template #columns>
-          <TableColumn title="名称" :width="100" ellipsis tooltip data-index="name" />
-          <TableColumn title="缩略图" :width="100" align="center">
-            <template #cell="{ record }">
-              <Image
-                width="80"
-                height="80"
-                class="cursor-pointer"
-                :src="`${record.url}@80w_80h_1e_1c.webp`"
-                :preview-props="{ src: `${record.url}@1e_1c.webp` }"
-              />
-            </template>
-          </TableColumn>
-          <TableColumn title="分辨率" :width="120" align="center">
-            <template #cell="{ record }">
-              {{ record.width }} X {{ record.height }}
-            </template>
-          </TableColumn>
-          <TableColumn title="时间" :width="100" align="center">
-            <template #cell="{ record }">
-              {{ formatDate(record.date, '{y}-{m}-{d}') }}
-            </template>
-          </TableColumn>
-          <TableColumn title="操作" align="center">
-            <template #cell="{ record }">
-              <div>
-                <Dropdown trigger="hover" @select="val => copyImageUrl(val, record)">
-                  <Button type="primary" size="small">
-                    复制
-                  </Button>
-                  <template #content>
-                    <Doption>原图</Doption>
-                    <Doption>markdown</Doption>
-                    <Doption>webp</Doption>
-                  </template>
-                </Dropdown>
-                <Popconfirm content="确认删除吗？" position="lt" @ok="remove(record)">
-                  <IconDelete class="ml-2 cursor-pointer hover:text-red-400" />
-                </Popconfirm>
-              </div>
-            </template>
-          </TableColumn>
-        </template>
-      </Table>
+  <div class="px-2">
+    <div class="layout-slide mb-2 w-full">
+      <Button type="primary" @click="viewHistory">
+        查看之前版本的历史记录
+      </Button>
     </div>
-  </Spin>
+    <div class="layout-slide mb-2 w-full">
+      <RangePicker
+        clearable
+        @change="onDateChange"
+      />
+      <Tag color="#fb7299">
+        共 {{ data.length }}条
+      </Tag>
+    </div>
+    <Table class="img-table" :scroll="scrollPercent" :hide-header="true" row-key="id" :data="filterData" :pagination="paginationPros">
+      <template #columns>
+        <TableColumn title="名称" :width="100" ellipsis tooltip data-index="name" />
+        <TableColumn title="缩略图" :width="100" align="center">
+          <template #cell="{ record }">
+            <Image
+              width="80"
+              height="80"
+              class="cursor-pointer"
+              :src="`${record.url}@80w_80h_1e_1c.webp`"
+              :preview-props="{ src: `${record.url}@1e_1c.webp` }"
+            />
+          </template>
+        </TableColumn>
+        <TableColumn title="分辨率" :width="120" align="center">
+          <template #cell="{ record }">
+            {{ record.width }} X {{ record.height }}
+          </template>
+        </TableColumn>
+        <TableColumn title="时间" :width="100" align="center">
+          <template #cell="{ record }">
+            {{ formatDate(record.date, '{y}-{m}-{d}') }}
+          </template>
+        </TableColumn>
+        <TableColumn title="操作" align="center">
+          <template #cell="{ record }">
+            <div>
+              <Dropdown trigger="hover" @select="val => copyImageUrl(val, record)">
+                <Button type="primary" size="small">
+                  复制
+                </Button>
+                <template #content>
+                  <Doption>原图</Doption>
+                  <Doption>markdown</Doption>
+                  <Doption>webp</Doption>
+                </template>
+              </Dropdown>
+              <Popconfirm content="确认删除吗？" position="lt" @ok="remove(record)">
+                <IconDelete class="ml-2 cursor-pointer hover:text-red-400" />
+              </Popconfirm>
+            </div>
+          </template>
+        </TableColumn>
+      </template>
+    </Table>
+  </div>
 </template>
 
 <style lang="scss">
