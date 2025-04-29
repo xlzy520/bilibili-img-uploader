@@ -23,10 +23,10 @@ export async function getManifest() {
       service_worker: './dist/background/index.mjs',
     },
     icons: {
-      16: './assets/favicon@16.png',
-      48: './assets/favicon@48.png',
-      64: './assets/favicon@64.png',
-      128: './assets/favicon.png',
+      16: '/assets/favicon@16.png',
+      48: '/assets/favicon@48.png',
+      64: '/assets/favicon@64.png',
+      128: '/assets/favicon.png',
     },
     permissions: [
       'cookies',
