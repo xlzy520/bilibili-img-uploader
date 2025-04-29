@@ -9,7 +9,7 @@ const homePage = 'https://bilibili.com'
 const loginUrl = 'https://passport.bilibili.com/login'
 // const uploadUrl = 'https://member.bilibili.com/x/vu/web/cover/up'
 // const uploadUrl = 'https://member.bilibili.com/x/material/up/upload'
-const uploadUrl = 'https://api.bilibili.com/x/dynamic/feed/draw/upload_bfs'
+const uploadUrl = 'https://api.bilibili.com/x/upload/web/image'
 // const uploadUrl = 'https://api.vc.bilibili.com/api/v1/drawImage/upload'
 const token = ref('')
 const nickname = ref('')
@@ -17,7 +17,7 @@ const mid = ref('')
 const face = ref('')
 
 const uploadData = {
-  biz: 'article',
+  bucket: 'openplatform',
   csrf: '',
 }
 const fileList = ref([])
@@ -41,14 +41,14 @@ const toLogin = () => {
 
 const getResponseImgUrlHttps = (res) => {
   if (res) {
-    return res.data.image_url.replace('http', 'https')
+    return res.data.location.replace('http', 'https')
   }
   return ''
 }
 
 const uploadSuccess = async (FileItem) => {
   const res = FileItem.response
-  if (res.data?.image_url) {
+  if (res.data?.location) {
     const link = getResponseImgUrlHttps(res)
     const copyMD = copyStyle.value === 'markdown'
     if (copyMD) {
@@ -174,7 +174,7 @@ onMounted(() => {
         multiple
         :with-credentials="true"
         :data="uploadData"
-        name="file_up"
+        name="file"
         :file-list="fileList"
         @success="uploadSuccess"
       >
